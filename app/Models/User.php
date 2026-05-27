@@ -35,4 +35,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function company()
+    {
+        return $this->hasOne(Company::class, 'owner_id');
+    }
+
+    public function jobApplication()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
 }

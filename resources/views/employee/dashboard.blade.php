@@ -1,3 +1,10 @@
 <x-layout>
-  <h1>employee dashboard</h1>
+
+    <x-components.header />
+
+
+<div>
+    employee
+</div>
+  <x-components.footer />
 </x-layout>
