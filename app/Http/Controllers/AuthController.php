@@ -34,7 +34,7 @@ class AuthController extends Controller
 
         ]);
 
-        return redirect()->route('auth.login')->with('message', 'register successfully');
+        return redirect()->route('auth.login')->with('success', 'register successfully');
     }
 
     public function showLogin()
@@ -54,16 +54,16 @@ class AuthController extends Controller
             $roleName = $user->role->role;
 
             if ($roleName === 'Owner') {
-                return redirect()->intended('owner/dashboard');
+                return redirect()->intended('owner/dashboard')->with('success','welcome to dashboard');
             }
             if ($roleName === 'Manager') {
-                return redirect()->intended('/manager/dashboard');
+                return redirect()->intended('/manager/dashboard')->with('success','welcome to dashboard');
             }
             if ($roleName === 'HR') {
-                return redirect()->intended('/hr/dashboard');
+                return redirect()->intended('/hr/dashboard')->with('success','welcome to dashboard');
             }
 
-            return redirect()->intended('/employee/dashboard');
+            return redirect()->intended('/employee/dashboard')->with('success','welcome to dashboard');
         }
 
         return back()->withErrors([
@@ -78,6 +78,6 @@ class AuthController extends Controller
 
         request()->session()->regenerateToken();
 
-        return redirect()->route('auth.showlogin');
+        return redirect()->route('auth.login');
     }
 }

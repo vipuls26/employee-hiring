@@ -19,7 +19,7 @@
                     </button>
                 </div>
                 <el-popover-group class="hidden lg:flex lg:gap-x-12">
-                    <a href="#" class="text-sm/6 font-semibold text-white">Jobs</a>
+                    <a href="{{ route('employee.addResume') }}" class="text-sm/6 font-semibold text-white">Add Resume</a>
                     <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
                     <a href="#" class="text-sm/6 font-semibold text-white">Notifications</a>
                 </el-popover-group>
@@ -119,7 +119,7 @@
                                             class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
                                         <a href=""
                                             class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Applications</a>
-                                        
+
                                     </div>
                                     <div class="py-6">
                                         <a href="{{ route('auth.logout') }}"

@@ -34,7 +34,7 @@ class OwnerController extends Controller
         ]);
 
         if ($company) {
-            return redirect(route('owner.dashboard'));
+            return redirect()->route('owner.dashboard')->with('success', 'Company register successfully');
         }
     }
 }

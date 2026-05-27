@@ -40,6 +40,6 @@ class HRController extends Controller
             return redirect()->route('hr.dashboard')->with('success', 'Job added successfully.');
         }
 
-        return redirect()->route('hr.showForm')->with('error', 'Unable to add job right now.');
+        return redirect()->route('hr.showForm')->with('error', 'Job not added');
     }
 }
