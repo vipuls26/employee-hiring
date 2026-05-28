@@ -11,10 +11,22 @@
 
                 {{-- name --}}
                 <div>
-                    <label for="name" class="block text-sm/6 font-medium text-gray-900">Name <span class="text-red-600">*</span> </label>
+                    <label for="name" class="block text-sm/6 font-medium text-gray-900">
+                        Name
+                        <span class="text-red-600">*</span>
+                    </label>
                     <div class="mt-2">
-                        <input id="name" type="text" name="name" value="{{ old('name') }}"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                        <div class="relative w-full">
+                            <i class="pi pi-user absolute p-3 text-gray-400"></i>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}"
+                                placeholder="Enter Name"
+                                class="block w-full rounded-md bg-white
+                                        pl-10 pr-3 py-1.5 text-base
+                                        text-gray-900 outline-1 -outline-offset-1 outline-gray-300
+                                        placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
+                                        focus:outline-indigo-600 sm:text-sm/6" />
+                        </div>
+
                     </div>
                     @error('name')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -23,11 +35,21 @@
 
                 {{-- email --}}
                 <div>
-                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address <span class="text-red-600">*</span></label>
+                    <label for="email" class="block text-sm/6 font-medium text-gray-900">
+                        Email address
+                        <span class="text-red-600">*</span>
+                    </label>
                     <div class="mt-2">
-                        <input id="email" type="email" name="email"
-                            value="{{ old('email') }}"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                        <div class="relative w-full">
+                            <i class="pi pi-envelope absolute p-3 text-gray-400"></i>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}"
+                                placeholder="Enter Email"
+                                class="block w-full rounded-md bg-white
+                                        pl-10 pr-3 py-1.5 text-base
+                                        text-gray-900 outline-1 -outline-offset-1 outline-gray-300
+                                        placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
+                                        focus:outline-indigo-600 sm:text-sm/6" />
+                        </div>
                     </div>
                     @error('email')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -36,10 +58,19 @@
 
                 {{-- password --}}
                 <div>
-                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password <span class="text-red-600">*</span></label>
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password <span
+                            class="text-red-600">*</span></label>
                     <div class="mt-2">
-                        <input id="password" type="password" name="password"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+
+                        <div class="relative w-full">
+                            <i class="pi pi-lock absolute p-3 text-gray-400"></i>
+                            <input id="password" type="password" name="password" placeholder="Enter Password"
+                                class="block w-full rounded-md bg-white
+                                pl-10 pr-3 py-1.5 text-base
+                                text-gray-900 outline-1 -outline-offset-1 outline-gray-300
+                                placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-indigo-600 sm:text-sm/6" />
+                        </div>
                     </div>
                     @error('password')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -48,12 +79,21 @@
 
                 {{-- confirm password --}}
                 <div>
-                    <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">Confirm
-                        Password <span class="text-red-600">*</span></label>
+                    <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">
+                        Confirm Password <span class="text-red-600">*</span>
+                    </label>
                     <div class="mt-2">
-                        <input id="password_confirmation" type="password" name="password_confirmation"
-                            autocomplete="new-password"
-                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                        <div class="relative w-full">
+                            <i class="pi pi-lock absolute p-3 text-gray-400"></i>
+                            <input id="password_confirmation" type="password" name="password_confirmation"
+                                placeholder="Enter Confirm Password"
+                                class="block w-full rounded-md bg-white
+                                pl-10 pr-3 py-1.5 text-base
+                                text-gray-900 outline-1 -outline-offset-1 outline-gray-300
+                                placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-indigo-600 sm:text-sm/6" />
+                        </div>
+
                     </div>
                     @error('password_confirmation')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -62,13 +102,15 @@
 
                 {{-- role --}}
                 <div>
-                    <label for="role" class="block text-sm/6 font-medium text-gray-900">Role <span class="text-red-600">*</span></label>
+                    <label for="role" class="block text-sm/6 font-medium text-gray-900">
+                        Role <span class="text-red-600">*</span>
+                    </label>
                     <fieldset class="mt-2 space-y-4">
                         <legend class="sr-only">Select your role</legend>
                         <div class="flex items-center">
                             <input id="employee" name="role" type="radio" value="employee"
                                 @checked(old('role') == 'employee')
-                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
                             <label for="employee" class="ml-3 block text-sm font-medium text-gray-700">Employee</label>
                         </div>
                         <div class="flex items-center">

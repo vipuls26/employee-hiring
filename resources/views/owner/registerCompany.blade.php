@@ -5,7 +5,7 @@
     <div class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
         <div class="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-md border border-gray-100">
             <div>
-                <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">Register Company</h2>
+                <h2 class="text-center text-3xl font-bold tracking-tight text-indigo-500">Register Company</h2>
             </div>
 
             <form action="{{ route('owner.registerCompany') }}" method="POST" class="mt-8 space-y-4">
@@ -13,10 +13,20 @@
 
                 {{-- company name --}}
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Company Name <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <input id="name" type="text" name="name" value="{{ old('name') }}"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                    <label for="name" class="block text-sm/6 font-medium text-gray-900">
+                        Company Name <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-building absolute text-gray-400 p-2.5"></i>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}"
+                                placeholder="Enter Company Name"
+                                class="block w-full rounded-md border-0 bg-white
+                                pl-10 pr-3 py-1.5
+                                text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
+                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                        </div>
+
                     </div>
                     @error('name')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -25,10 +35,19 @@
 
                 {{-- company email --}}
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email address <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <input id="email" type="email" name="email" value="{{ old('email') }}"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                    <label for="email" class="block text-sm font-medium text-gray-900">
+                        Email address <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-envelope absolute p-2.5 text-gray-400"></i>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}"
+                                placeholder="Enter Company Email"
+                                class="block w-full rounded-md border-0 bg-white
+                                pl-10 pr-3 py-1.5
+                                text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
+                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                        </div>
                     </div>
                     @error('email')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -37,10 +56,19 @@
 
                 {{-- phone number --}}
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <input id="phone" type="tel" name="phone" value="{{ old('phone') }}"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                    <label for="phone" class="block text-sm font-medium text-gray-900">
+                        Phone Number <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-phone absolute p-2.5 text-gray-400"></i>
+                            <input id="phone" type="tel" name="phone" value="{{ old('phone') }}"
+                                placeholder="Enter Phone Number"
+                                class="block w-full rounded-md border-0 bg-white
+                                pl-10 pr-3 py-1.5
+                                text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
+                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                        </div>
                     </div>
                     @error('phone')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -49,10 +77,19 @@
 
                 {{-- website --}}
                 <div>
-                    <label for="website" class="block text-sm font-medium text-gray-700">Website <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <input id="website" type="url" name="website" value="{{ old('website') }}"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                    <label for="website" class="block text-sm font-medium text-gray-700">
+                        Website <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-link absolute p-2.5 text-gray-400"></i>
+                            <input id="website" type="url" name="website" value="{{ old('website') }}"
+                                placeholder="Enter Company Website"
+                                class="block w-full rounded-md border-0 bg-white
+                                pl-10 pr-3 py-1.5 text-gray-900 shadow-sm
+                                ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
+                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                        </div>
                     </div>
                     @error('website')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -61,10 +98,19 @@
 
                 {{-- location --}}
                 <div>
-                    <label for="location" class="block text-sm font-medium text-gray-700">Location <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <input id="location" type="text" name="location" value="{{ old('location') }}"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                    <label for="location" class="block text-sm font-medium text-gray-700">
+                        Location <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-map-marker absolute p-2.5 text-gray-400"></i>
+                            <input id="location" type="text" name="location" value="{{ old('location') }}"
+                                placeholder="Enter Company Location"
+                                class="block w-full rounded-md border-0 bg-white
+                                pl-10 px-3 py-1.5 text-gray-900 shadow-sm ring-1
+                                ring-inset ring-gray-300 placeholder:text-gray-400
+                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                        </div>
                     </div>
                     @error('location')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -73,10 +119,18 @@
 
                 {{-- description --}}
                 <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700">Description <span class="text-red-600">*</span></label>
-                    <div class="mt-1">
-                        <textarea id="description" name="description" rows="3"
-                            class="block w-full rounded-md border-0 bg-white py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">{{ old('description') }}</textarea>
+                    <label for="description" class="block text-sm font-medium text-gray-700">
+                        Description <span class="text-red-600">*</span>
+                    </label>
+                    <div class="mt-2">
+                        <div class="relative w-full">
+                            <i class="pi pi-tags absolute p-2.5 text-gray-400"></i>
+                            <textarea id="description" name="description" rows="3" placeholder="Enter Company Description"
+                                class="block w-full rounded-md border-0 bg-white  pl-10 py-1.5 px-3
+                                text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
+                                placeholder:text-gray-400 focus:ring-2 focus:ring-inset
+                                focus:ring-indigo-600 sm:text-sm">{{ old('description') }}</textarea>
+                        </div>
                     </div>
                     @error('description')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

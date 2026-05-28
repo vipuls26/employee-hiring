@@ -31,6 +31,9 @@ Route::prefix('/employee')->group(function () {
     Route::get('/view-resume', [EmployeeController::class, 'viewResume'])->name('employee.viewResume');
 });
 
+Route::get('/applications/{application}/resume', [EmployeeController::class, 'viewApplicationResume'])
+    ->name('applications.resume');
+
 Route::prefix('/hr')->group(function () {
     // dashboard
     Route::get('/dashboard', [HRController::class, 'index'])->name('hr.dashboard');

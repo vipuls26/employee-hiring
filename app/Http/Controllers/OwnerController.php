@@ -2,39 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\job\ApproveRejectRequest;
 use App\Http\Requests\owner\RegisterCompany;
 use App\Mail\SendMail;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OwnerController extends Controller
 {
+    // show apllication approve by manager
     public function index()
     {
-        $companyId = Auth::user()?->company?->id;
-
-        $applications = Application::with(['job.company', 'approvals.user'])
-            ->where('overall_status','manager_approved')
-            ->latest()
-            ->get();
-
+        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status', 'manager_approved')->latest()->get();
         return view('owner.dashboard', compact('applications'));
     }
 
+    // show company register form
     public function showForm()
     {
         return view('owner.registerCompany');
     }
 
+    // add company to db
     public function registerCompany(RegisterCompany $request)
     {
-
+        // fetch user id
         $ownerId = Auth::user()->id;
-
+        // add data to table
         $company = Company::firstOrCreate([
             'name' => $request->name,
             'email' => $request->email,
@@ -45,36 +42,29 @@ class OwnerController extends Controller
             'owner_id' => $ownerId
         ]);
 
+        // redirect to dashboard
         if ($company) {
             return redirect()->route('owner.dashboard')->with('success', 'Company register successfully');
         }
     }
 
-    public function decide(Request $request, Application $application)
+    // approve/reject for employee application review by manager
+    public function decide(ApproveRejectRequest $request, Application $application)
     {
-        $validated = $request->validate([
-            'action' => ['required', 'in:accept,reject'],
-            'reason' => ['nullable', 'string', 'max:255'],
-        ]);
+        // validation check
+        $validated = $request->validated();
 
+        // check for rejection reason
         if ($validated['action'] === 'reject' && blank($validated['reason'] ?? null)) {
             return redirect()->route('owner.dashboard')->with('error', 'Rejection reason is required.');
         }
 
-        if (! in_array($application->overall_status, ['manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'], true)) {
-            return redirect()->route('owner.dashboard')->with('error', 'Owner can only review applications after Manager.');
-        }
-
-        $companyId = Auth::user()?->company?->id;
-
-        if ($companyId && $application->job?->company_id !== $companyId) {
-            return redirect()->route('owner.dashboard')->with('error', 'You can only review applications for your company.');
-        }
-
+        // update application status
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'owner_approved' : 'owner_rejected',
         ]);
 
+        // add data in application approval table
         ApplicationApproval::updateOrCreate(
             [
                 'application_id' => $application->id,
@@ -89,6 +79,7 @@ class OwnerController extends Controller
 
         $application->loadMissing('job.company');
 
+        // send email
         Mail::to($application->employee_email)->send(new SendMail(
             application: $application,
             stage: 'owner',
@@ -97,6 +88,7 @@ class OwnerController extends Controller
             reviewerName: Auth::user()?->name ?? 'Owner',
         ));
 
-        return redirect()->route('owner.dashboard')->with('success', 'Owner decision saved successfully.');
+        // redirect to dashboard
+        return redirect()->route('owner.dashboard')->with('success', 'Application status updated.');
     }
 }

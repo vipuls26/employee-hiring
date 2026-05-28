@@ -2,7 +2,7 @@
 
     <x-components.header />
 
-    <div>
+    <div class="mx-auto max-w-7xl px-3 py-8 pt-10">
         <div class="overflow-x-auto shadow-md rounded-lg">
             <table class="w-full text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -35,13 +35,17 @@
                                 {{ $job->type }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('hr.job.edit', $job->id) }}" class="inline-flex items-center px-3 py-1 mr-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
+                                <a href="{{ route('hr.job.edit', $job->id) }}"
+                                    class="inline-flex items-center px-3 py-1 mr-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700">
                                     Edit
                                 </a>
-                                <form method="POST" action="{{ route('hr.job.delete', $job->id) }}" style="display:inline;">
+                                <form method="POST" action="{{ route('hr.job.delete', $job->id) }}"
+                                    style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700" onclick="return confirm('Are you sure?')">
+                                    <button type="submit"
+                                        class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+                                        onclick="return confirm('Confirm to delete job post?')">
                                         Delete
                                     </button>
                                 </form>
@@ -52,7 +56,6 @@
             </table>
         </div>
     </div>
-
 
     <x-components.footer />
 </x-layout>

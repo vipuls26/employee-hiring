@@ -50,8 +50,7 @@
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-600">
                                     @if ($application->resume_path)
-                                        {{-- return response()->file(storage_path('app/public/' . $resumePath)); --}}
-                                        <a href="{{ asset($application->resume_path) }}" target="_blank"
+                                        <a href="{{ route('applications.resume', $application) }}" target="_blank"
                                             rel="noopener noreferrer"
                                             class="text-blue-600 hover:text-blue-800 underline">View Resume</a>
                                     @else
@@ -79,8 +78,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-4 py-10 text-center text-sm text-slate-500">No applications
-                                    found yet.</td>
+                                <td colspan="6" class="px-4 py-10 text-center text-sm text-slate-500">No candidate
+                                    apply for job</td>
                             </tr>
                         @endforelse
                     </tbody>

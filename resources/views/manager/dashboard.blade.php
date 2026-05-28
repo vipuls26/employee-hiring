@@ -16,8 +16,7 @@
                             <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Job</th>
 
-                            <th
-                                class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Current Status</th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -29,7 +28,6 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200">
                         @forelse ($applications as $application)
-
                             <tr class="align-top">
                                 <td class="px-4 py-4">
                                     <div class="font-semibold text-slate-900">{{ $application->employee_name }}</div>
@@ -44,12 +42,12 @@
                                 <td class="px-4 py-4">
                                     <span
                                         class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $statusColors[$application->overall_status] ?? 'bg-slate-100 text-slate-700' }}">
-                                        {{  $application->overall_status }}
+                                        {{ $application->overall_status }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-600">
                                     @if ($application->resume_path)
-                                        <a href="{{ asset($application->resume_path) }}" target="_blank"
+                                        <a href="{{ route('applications.resume', $application) }}" target="_blank"
                                             rel="noopener noreferrer"
                                             class="text-blue-600 hover:text-blue-800 underline">View Resume</a>
                                     @else
@@ -61,8 +59,7 @@
                                         <form action="{{ route('manager.applications.decide', $application) }}"
                                             method="POST" class="space-y-2">
                                             @csrf
-                                            <textarea name="reason" rows="2"
-                                                class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                            <textarea name="reason" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                                                 placeholder="Add rejection reason if rejecting"></textarea>
                                             <div class="flex flex-wrap gap-2">
                                                 <button type="submit" name="action" value="accept"
@@ -79,7 +76,7 @@
                         @empty
                             <tr>
                                 <td colspan="6" class="px-4 py-10 text-center text-sm text-slate-500">No applications
-                                    are for manager review.</td>
+                                    are review.</td>
                             </tr>
                         @endforelse
                     </tbody>
