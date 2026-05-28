@@ -8,8 +8,8 @@ use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/', [AuthController::class, 'login'])->name('auth.login');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
@@ -22,10 +22,13 @@ Route::prefix('/employee')->group(function () {
     Route::get('/dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
     // apply for job
     Route::post('/apply-job/{job_id}', [EmployeeController::class, 'apply'])->name('employee.apply');
-    // add resume
-    // Display the form
+
+    // display the form
     Route::get('/add-resume', [EmployeeController::class, 'addResumeForm'])->name('employee.addResume');
     Route::post('/add-resume', [EmployeeController::class, 'storeResume'])->name('employee.resumeStore');
+
+    // view resume
+    Route::get('/view-resume', [EmployeeController::class, 'viewResume'])->name('employee.viewResume');
 });
 
 Route::prefix('/hr')->group(function () {
@@ -34,7 +37,19 @@ Route::prefix('/hr')->group(function () {
     // add job
     Route::get('/job-form', [HRController::class, 'show'])->name('hr.showForm');
     Route::post('/add', [HRController::class, 'create'])->name('hr.createJob');
+
+    //job list
+    Route::get('/job-list', [HRController::class, 'jobList'])->name('hr.jobList');
+
+    // accept/reject route
     Route::post('/applications/{application}/decision', [HRController::class, 'decide'])->name('hr.applications.decide');
+
+    // job edit
+    Route::get('/job/{job}/edit', [HRController::class, 'edit'])->name('hr.job.edit');
+    Route::put('/job/{job}', [HRController::class, 'update'])->name('hr.job.update');
+
+    // job delete
+    Route::delete('/job/{job}', [HRController::class, 'destroy'])->name('hr.job.delete');
 });
 
 Route::prefix('/manager')->group(function () {

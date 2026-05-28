@@ -6,39 +6,33 @@
         @foreach ($jobs as $job)
             <form action="{{ route('employee.apply', $job->id) }}" method="POST">
                 @csrf
-
                 <div
                     class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200">
-                    <div class="p-6">
+                    <div class="p-6 flex flex-col h-full justify-between">
 
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">
-                            {{ $job->name }}
-                        </h3>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-1">
+                                {{ $job->name }}
+                            </h3>
+                            <p class="text-lg font-semibold text-indigo-600 mb-4">
+                                ₹ {{ $job->salary }}
+                            </p>
+                        </div>
 
-
-                        <p class="text-lg font-semibold text-indigo-600 mb-4">
-                            ₹ {{ $job->salary }}
-                        </p>
-
-
-                        <div class="flex items-center">
+                        
+                        <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                             <span
                                 class="inline-block bg-indigo-50 text-indigo-700 text-xs font-medium px-3 py-1 rounded-full">
                                 {{ $job->type }}
                             </span>
+                            <button type="submit"
+                                class="bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-200">
+                                Apply for Job
+                            </button>
                         </div>
-
-                        <button type="submit" class="bg-cyan-500">Apply for Job</button>
-
-                        <div>
-
-
-
-                        </div>
-
                     </div>
-
                 </div>
+
 
             </form>
         @endforeach

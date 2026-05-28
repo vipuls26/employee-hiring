@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Hr\AddJob;
+use App\Http\Requests\hr\AddJobRequest;
+use App\Http\Requests\hr\EditJobRequest;
+use App\Mail\SendMail;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class HRController extends Controller
 {
     public function index()
     {
-        $applications = Application::with(['job.company', 'approvals.user'])
-            ->orderByRaw("CASE WHEN overall_status = 'pending' THEN 0 ELSE 1 END")
-            ->latest()
-            ->get();
-
+        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status', 'pending')->latest()->get();
         return view('hr.dashboard', compact('applications'));
     }
 
@@ -27,7 +26,7 @@ class HRController extends Controller
         return view('hr.addJob');
     }
 
-    public function create(AddJob $request)
+    public function create(AddJobRequest $request)
     {
         $company = Auth::user()?->company ?? Company::query()->first();
 
@@ -55,10 +54,11 @@ class HRController extends Controller
     {
         $validated = $request->validate([
             'action' => ['required', 'in:accept,reject'],
+            'reason' => ['nullable', 'string', 'max:255'],
         ]);
 
-        if (! in_array($application->overall_status, ['pending', 'hr_approved', 'hr_rejected'], true)) {
-            return redirect()->route('hr.dashboard')->with('error', 'HR can only update pending applications.');
+        if ($validated['action'] === 'reject' && blank($validated['reason'] ?? null)) {
+            return redirect()->route('hr.dashboard')->with('error', 'Rejection reason is required.');
         }
 
         $application->update([
@@ -73,9 +73,57 @@ class HRController extends Controller
             [
                 'user_id' => Auth::id(),
                 'action' => $validated['action'],
+                'reason' => $validated['reason'] ?? null,
             ]
         );
 
+        $application->loadMissing('job.company');
+
+        Mail::to($application->employee_email)->send(new SendMail(
+            application: $application,
+            stage: 'hr',
+            action: $validated['action'],
+            reason: $validated['reason'] ?? null,
+            reviewerName: Auth::user()?->name ?? 'HR',
+        ));
+
         return redirect()->route('hr.dashboard')->with('success', 'HR decision saved successfully.');
+    }
+
+    public function jobList()
+    {
+        $jobs = JobApplication::with('company')->latest()->get();
+        return view('hr.joblist', compact('jobs'));
+    }
+
+    public function edit(JobApplication $job)
+    {
+
+        return view('hr.editJob', compact('job'));
+    }
+
+    public function update(EditJobRequest $request, JobApplication $job)
+    {
+        $validated = $request->validated();
+        
+        $job->update([
+            'name' => $validated['name'],
+            'salary' => $validated['salary'],
+            'type' => $validated['type'],
+            'status' => $validated['status']
+        ]);
+
+        return redirect()->route('hr.jobList')->with('success', 'Job updated successfully.');
+    }
+
+    public function destroy(JobApplication $job)
+    {
+        if ($job->applications()->exists()) {
+            return redirect()->route('hr.jobList')->with('error', 'You cannot delete a job that already has applications.');
+        }
+
+        $job->delete();
+
+        return redirect()->route('hr.jobList')->with('success', 'Job deleted successfully.');
     }
 }

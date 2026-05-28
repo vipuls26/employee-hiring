@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 20);
             $table->decimal('salary', 10, 2);
-            $table->enum('status', ['pending', 'rejected', 'approve'])->default('pending');
+            $table->enum('status', ['active', 'inActive'])->default('active');
             $table->enum('type', ['part-time', 'full-time', 'hybrid', 'internship'])->default('internship');
             $table->foreignId('company_id')->constrained('company')->cascadeOnDelete();
             $table->timestamps();
