@@ -1,6 +1,6 @@
 <x-layout>
 
-    <x-components.header />
+    <x-header />
 
     <div class="flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
         <div class="w-full max-w-md space-y-8 bg-white p-8 rounded-xl shadow-md border border-gray-100">
@@ -84,5 +84,5 @@
         </div>
     </div>
 
-    <x-components.footer />
+    <x-footer />
 </x-layout>

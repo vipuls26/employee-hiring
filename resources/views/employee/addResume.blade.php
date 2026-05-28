@@ -1,6 +1,6 @@
 <x-layout>
 
-    <x-components.header />
+    <x-header />
 
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -38,5 +38,5 @@
         </div>
     </div>
 
-    <x-components.footer />
+    <x-footer />
 </x-layout>
