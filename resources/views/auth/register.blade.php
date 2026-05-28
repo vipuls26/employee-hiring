@@ -11,7 +11,7 @@
 
                 {{-- name --}}
                 <div>
-                    <label for="name" class="block text-sm/6 font-medium text-gray-900">Name</label>
+                    <label for="name" class="block text-sm/6 font-medium text-gray-900">Name <span class="text-red-600">*</span> </label>
                     <div class="mt-2">
                         <input id="name" type="text" name="name" value="{{ old('name') }}"
                             class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
@@ -23,7 +23,7 @@
 
                 {{-- email --}}
                 <div>
-                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address <span class="text-red-600">*</span></label>
                     <div class="mt-2">
                         <input id="email" type="email" name="email"
                             value="{{ old('email') }}"
@@ -36,9 +36,9 @@
 
                 {{-- password --}}
                 <div>
-                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password <span class="text-red-600">*</span></label>
                     <div class="mt-2">
-                        <input id="password" type="password" name="password" 
+                        <input id="password" type="password" name="password"
                             class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                     </div>
                     @error('password')
@@ -49,7 +49,7 @@
                 {{-- confirm password --}}
                 <div>
                     <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">Confirm
-                        Password</label>
+                        Password <span class="text-red-600">*</span></label>
                     <div class="mt-2">
                         <input id="password_confirmation" type="password" name="password_confirmation"
                             autocomplete="new-password"
@@ -62,7 +62,7 @@
 
                 {{-- role --}}
                 <div>
-                    <label for="role" class="block text-sm/6 font-medium text-gray-900">Role</label>
+                    <label for="role" class="block text-sm/6 font-medium text-gray-900">Role <span class="text-red-600">*</span></label>
                     <fieldset class="mt-2 space-y-4">
                         <legend class="sr-only">Select your role</legend>
                         <div class="flex items-center">

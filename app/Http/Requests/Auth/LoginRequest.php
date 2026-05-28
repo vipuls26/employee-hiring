@@ -30,17 +30,17 @@ class LoginRequest extends FormRequest
         return [
 
             // email
-            'email.required' => 'email is required',
-            'email.string' => 'email must be in string',
-            'email.email' => 'email must be a valid email address',
-            'email.max' => 'email must be at most 255 characters',
-            'email.unique' => 'email already exists',
+            'email.required' => 'Email is required',
+            'email.string' => 'Email must be in string',
+            'email.email' => 'Email must be a valid email address',
+            'email.max' => 'Email must be at most 255 characters',
+            'email.unique' => 'Email already exists',
 
             // password
-            'password' => 'password is required',
-            'password.string' => 'password must be in string',
-            'password.min' => 'password must be at least 6 characters',
-            'password.max' => 'password must be at most 12 characters',
+            'password' => 'Password is required',
+            'password.string' => 'Password must be in string',
+            'password.min' => 'Password must be at least 6 characters',
+            'password.max' => 'Password must be at most 12 characters',
         ];
     }
 }
