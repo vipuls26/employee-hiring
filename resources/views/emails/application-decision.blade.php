@@ -5,12 +5,12 @@
 
     <p>
         Your application for <strong>{{ $application->job?->name ?? 'the selected role' }}</strong>
-        has been <strong>{{ $action }}</strong> by {{ strtoupper($stage) }}.
+        has been <strong>{{ $action }}</strong> by {{ $stage }}.
     </p>
 
     <p>
         Current application status:
-        <strong>{{ str_replace('_', ' ', $application->overall_status) }}</strong>
+        <strong>{{ $application->overall_status }}</strong>
     </p>
 
     <p>

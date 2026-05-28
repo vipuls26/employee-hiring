@@ -4,9 +4,8 @@ namespace App\Http\Requests\Hr;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
 
-class AddJob extends FormRequest
+class EditJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,27 +25,31 @@ class AddJob extends FormRequest
         return [
             'name' => 'required|string|min:3|max:30',
             'salary' => 'required|numeric',
-            'type' => 'required',
-
+            'type' => 'required|in:full-time,part-time,hybrid,internship',
+            'status' => 'required|in:active,inActive'
         ];
     }
 
-    
     public function messages()
     {
         return [
-            // name
-            'name.required' => 'Job title required',
+            // job name
+            'name.required' => 'Job name is required',
             'name.string' => 'Job title must be a string',
             'name.min' => 'Job title must be at least 3 characters',
             'name.max' => 'Job title must not exceed 30 characters',
 
             // salary
-            'salary.required' => 'Salary required',
+            'salary.required' => 'Salary is required',
             'salary.numeric' => 'Salary must be a number',
 
             // type
-            'type.required' => 'Job type required',
+            'type.required' => 'Job type is required',
+            'type.in' => 'Job type must be one of: full-time, part-time, hybrid, internship',
+
+            // status
+            'status.required' => 'Job status is required',
+            'status.in' => 'Job status must be either active or inactive',
 
         ];
     }

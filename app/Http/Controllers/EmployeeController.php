@@ -12,7 +12,8 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $jobs = JobApplication::all();
+        // only active job 
+        $jobs = JobApplication::where('status','active')->get();
         return view('employee.dashboard', compact('jobs'));
     }
 

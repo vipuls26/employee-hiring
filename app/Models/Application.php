@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+
 use Illuminate\Database\Eloquent\Model;
 
 #[Fillable(['employee_name', 'employee_email', 'job_id', 'user_id', 'overall_status','resume_path'])]

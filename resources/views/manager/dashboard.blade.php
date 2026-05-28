@@ -1,15 +1,6 @@
 <x-layout>
     <x-components.header />
 
-    @php
-        $statusColors = [
-            'hr_approved' => 'bg-green-100 text-green-800',
-            'hr_rejected' => 'bg-red-100 text-red-800',
-            'manager_approved' => 'bg-blue-100 text-blue-800',
-            'manager_rejected' => 'bg-orange-100 text-orange-800',
-        ];
-    @endphp
-
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-slate-900">Manager Dashboard</h1>
@@ -24,8 +15,7 @@
                                 Applicant</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Job</th>
-                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                HR Status</th>
+
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Current Status</th>
@@ -39,14 +29,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200">
                         @forelse ($applications as $application)
-                            @php
-                                $canReview = in_array(
-                                    $application->overall_status,
-                                    ['hr_approved', 'hr_rejected', 'manager_approved', 'manager_rejected'],
-                                    true,
-                                );
-                                $hrDecision = $application->approvals->firstWhere('role', 'hr');
-                            @endphp
+
                             <tr class="align-top">
                                 <td class="px-4 py-4">
                                     <div class="font-semibold text-slate-900">{{ $application->employee_name }}</div>
@@ -54,24 +37,14 @@
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-700">
                                     <div>{{ $application->job?->name ?? 'Unknown job' }}</div>
-                                    <div class="text-slate-500">{{ $application->job?->company?->name ?? 'No company' }}
+                                    <div class="text-slate-500">{{ $application->job?->company?->name }}
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-slate-700">
-                                    @if ($hrDecision)
-                                        {{ ucfirst($hrDecision->action) }} by
-                                        {{ $hrDecision->user?->name ?? 'Unknown' }}
-                                        @if ($hrDecision->reason)
-                                            <div class="mt-1 text-xs text-slate-500">Reason: {{ $hrDecision->reason }}</div>
-                                        @endif
-                                    @else
-                                        <span class="text-slate-400">Waiting for HR</span>
-                                    @endif
-                                </td>
+
                                 <td class="px-4 py-4">
                                     <span
                                         class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $statusColors[$application->overall_status] ?? 'bg-slate-100 text-slate-700' }}">
-                                        {{ str_replace('_', ' ', $application->overall_status) }}
+                                        {{  $application->overall_status }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-600">

@@ -37,7 +37,19 @@ Route::prefix('/hr')->group(function () {
     // add job
     Route::get('/job-form', [HRController::class, 'show'])->name('hr.showForm');
     Route::post('/add', [HRController::class, 'create'])->name('hr.createJob');
+
+    //job list
+    Route::get('/job-list', [HRController::class, 'jobList'])->name('hr.jobList');
+
+    // accept/reject route
     Route::post('/applications/{application}/decision', [HRController::class, 'decide'])->name('hr.applications.decide');
+
+    // job edit
+    Route::get('/job/{job}/edit', [HRController::class, 'edit'])->name('hr.job.edit');
+    Route::put('/job/{job}', [HRController::class, 'update'])->name('hr.job.update');
+
+    // job delete
+    Route::delete('/job/{job}', [HRController::class, 'destroy'])->name('hr.job.delete');
 });
 
 Route::prefix('/manager')->group(function () {

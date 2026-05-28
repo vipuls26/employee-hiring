@@ -1,14 +1,6 @@
 <x-layout>
     <x-components.header />
 
-    @php
-        $statusColors = [
-            'pending' => 'bg-yellow-100 text-yellow-800',
-            'hr_approved' => 'bg-green-100 text-green-800',
-            'hr_rejected' => 'bg-red-100 text-red-800',
-        ];
-    @endphp
-
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-slate-900">User applications</h1>
@@ -49,15 +41,16 @@
                                     <div class="text-slate-500">{{ $application->job?->type ?? 'N/A' }}</div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-700">
-                                    {{ $application->job?->company?->name ?? 'No company' }}</td>
+                                    {{ $application->job?->company?->name }}</td>
                                 <td class="px-4 py-4">
                                     <span
-                                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $statusColors[$application->overall_status] ?? 'bg-slate-100 text-slate-700' }}">
-                                        {{ str_replace('_', ' ', $application->overall_status) }}
+                                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $application->overall_status ?? 'bg-slate-100 text-slate-700' }}">
+                                        {{ $application->overall_status }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-slate-600">
                                     @if ($application->resume_path)
+                                        {{-- return response()->file(storage_path('app/public/' . $resumePath)); --}}
                                         <a href="{{ asset($application->resume_path) }}" target="_blank"
                                             rel="noopener noreferrer"
                                             class="text-blue-600 hover:text-blue-800 underline">View Resume</a>
@@ -70,8 +63,7 @@
                                         <form action="{{ route('hr.applications.decide', $application) }}"
                                             method="POST" class="space-y-2">
                                             @csrf
-                                            <textarea name="reason" rows="2"
-                                                class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                            <textarea name="reason" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
                                                 placeholder="Add rejection reason if rejecting"></textarea>
                                             <div class="flex flex-wrap gap-2">
                                                 <button type="submit" name="action" value="accept"

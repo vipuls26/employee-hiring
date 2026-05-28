@@ -28,8 +28,6 @@
                             Resume</a>
                     @endif
 
-                    <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
-
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
@@ -55,10 +53,15 @@
                                 <div class="-my-6 divide-y divide-white/10">
                                     <div class="space-y-2 py-6">
 
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Applications</a>
+                                        @if (auth()->user()->resume_path === null)
+                                            <a href="{{ route('employee.addResume') }}"
+                                                class="text-sm/6 font-semibold text-white">Add
+                                                Resume</a>
+                                        @else
+                                            <a href="{{ route('employee.viewResume') }}"
+                                                class="text-sm/6 font-semibold text-white">View
+                                                Resume</a>
+                                        @endif
 
                                     </div>
                                     <div class="py-6">
@@ -95,6 +98,7 @@
                 <el-popover-group class="hidden lg:flex lg:gap-x-12">
                     <a href="{{ route('hr.showForm') }}" class="text-sm/6 font-semibold text-white">Add Job</a>
 
+                    <a href="{{ route('hr.jobList') }}" class="text-sm/6 font-semibold text-white">Job List</a>
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
@@ -122,8 +126,12 @@
                                     <div class="space-y-2 py-6">
 
                                         <a href="{{ route('hr.showForm') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Add
+                                            Job</a>
 
+                                        <a href="{{ route('hr.jobList') }}"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Job
+                                            List</a>
                                     </div>
                                     <div class="py-6">
                                         <a href="{{ route('auth.logout') }}"
@@ -156,11 +164,7 @@
                         </svg>
                     </button>
                 </div>
-                <el-popover-group class="hidden lg:flex lg:gap-x-12">
-                    <a href="#" class="text-sm/6 font-semibold text-white">Jobs</a>
-                    <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
-                    <a href="#" class="text-sm/6 font-semibold text-white">Notifications</a>
-                </el-popover-group>
+
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
                 </div>
@@ -184,15 +188,6 @@
                             </div>
                             <div class="mt-6 flow-root">
                                 <div class="-my-6 divide-y divide-white/10">
-                                    <div class="space-y-2 py-6">
-
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Applications</a>
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Notifications</a>
-                                    </div>
                                     <div class="py-6">
                                         <a href="{{ route('auth.logout') }}"
                                             class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-white/5">Log
@@ -230,10 +225,7 @@
                         <a href="{{ route('owner.showform') }}">
                             Register company
                         </a>
-
                     </button>
-
-                    <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
