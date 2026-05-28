@@ -1,6 +1,14 @@
 <x-layout>
     <x-components.header />
 
+    @php
+        $statusColors = [
+            'manager_approved' => 'bg-blue-100 text-blue-800',
+            'manager_rejected' => 'bg-orange-100 text-orange-800',
+            'owner_approved' => 'bg-emerald-100 text-emerald-800',
+            'owner_rejected' => 'bg-rose-100 text-rose-800',
+        ];
+    @endphp
 
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="mb-6">
@@ -49,6 +57,9 @@
                                     @foreach ($application->approvals as $approval)
                                         <div>{{ strtoupper($approval->role) }}: {{ $approval->action }} by
                                             {{ $approval->user?->name ?? 'Unknown' }}</div>
+                                        @if ($approval->reason)
+                                            <div class="mb-2 text-xs text-slate-500">Reason: {{ $approval->reason }}</div>
+                                        @endif
                                     @endforeach
                                 </td>
 
@@ -61,22 +72,19 @@
                                 </td>
                                 <td class="px-4 py-4">
                                     @if ($application->overall_status === 'manager_approved')
-                                        <div class="flex flex-wrap gap-2">
-                                            <form action="{{ route('owner.applications.decide', $application) }}"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden" name="action" value="accept">
-                                                <button type="submit"
+                                        <form action="{{ route('owner.applications.decide', $application) }}"
+                                            method="POST" class="space-y-2">
+                                            @csrf
+                                            <textarea name="reason" rows="2"
+                                                class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                                placeholder="Add rejection reason if rejecting"></textarea>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button type="submit" name="action" value="accept"
                                                     class="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-700">Accept</button>
-                                            </form>
-                                            <form action="{{ route('owner.applications.decide', $application) }}"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden" name="action" value="reject">
-                                                <button type="submit"
+                                                <button type="submit" name="action" value="reject"
                                                     class="rounded-md bg-rose-600 px-3 py-2 text-sm font-semibold text-white hover:bg-rose-700">Reject</button>
-                                            </form>
-                                        </div>
+                                            </div>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>

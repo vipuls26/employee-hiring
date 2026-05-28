@@ -67,22 +67,19 @@
                                 </td>
                                 <td class="px-4 py-4">
                                     @if ($application->overall_status === 'pending')
-                                        <div class="flex flex-wrap gap-2">
-                                            <form action="{{ route('hr.applications.decide', $application) }}"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden" name="action" value="accept">
-                                                <button type="submit"
+                                        <form action="{{ route('hr.applications.decide', $application) }}"
+                                            method="POST" class="space-y-2">
+                                            @csrf
+                                            <textarea name="reason" rows="2"
+                                                class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                                placeholder="Add rejection reason if rejecting"></textarea>
+                                            <div class="flex flex-wrap gap-2">
+                                                <button type="submit" name="action" value="accept"
                                                     class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700">Accept</button>
-                                            </form>
-                                            <form action="{{ route('hr.applications.decide', $application) }}"
-                                                method="POST">
-                                                @csrf
-                                                <input type="hidden" name="action" value="reject">
-                                                <button type="submit"
+                                                <button type="submit" name="action" value="reject"
                                                     class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700">Reject</button>
-                                            </form>
-                                        </div>
+                                            </div>
+                                        </form>
                                     @else
                                         <span class="text-sm text-slate-400">Moved forward</span>
                                     @endif

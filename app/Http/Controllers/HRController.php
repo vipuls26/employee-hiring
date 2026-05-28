@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\hr\AddJob;
+use App\Mail\SendMail;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class HRController extends Controller
 {
@@ -51,7 +53,12 @@ class HRController extends Controller
     {
         $validated = $request->validate([
             'action' => ['required', 'in:accept,reject'],
+            'reason' => ['nullable', 'string', 'max:255'],
         ]);
+
+        if ($validated['action'] === 'reject' && blank($validated['reason'] ?? null)) {
+            return redirect()->route('hr.dashboard')->with('error', 'Rejection reason is required.');
+        }
 
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'hr_approved' : 'hr_rejected',
@@ -65,8 +72,19 @@ class HRController extends Controller
             [
                 'user_id' => Auth::id(),
                 'action' => $validated['action'],
+                'reason' => $validated['reason'] ?? null,
             ]
         );
+
+        $application->loadMissing('job.company');
+
+        Mail::to($application->employee_email)->send(new SendMail(
+            application: $application,
+            stage: 'hr',
+            action: $validated['action'],
+            reason: $validated['reason'] ?? null,
+            reviewerName: Auth::user()?->name ?? 'HR',
+        ));
 
         return redirect()->route('hr.dashboard')->with('success', 'HR decision saved successfully.');
     }

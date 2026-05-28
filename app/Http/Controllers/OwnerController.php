@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\owner\RegisterCompany;
+use App\Mail\SendMail;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OwnerController extends Controller
 {
@@ -52,7 +54,12 @@ class OwnerController extends Controller
     {
         $validated = $request->validate([
             'action' => ['required', 'in:accept,reject'],
+            'reason' => ['nullable', 'string', 'max:255'],
         ]);
+
+        if ($validated['action'] === 'reject' && blank($validated['reason'] ?? null)) {
+            return redirect()->route('owner.dashboard')->with('error', 'Rejection reason is required.');
+        }
 
         if (! in_array($application->overall_status, ['manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'], true)) {
             return redirect()->route('owner.dashboard')->with('error', 'Owner can only review applications after Manager.');
@@ -76,8 +83,19 @@ class OwnerController extends Controller
             [
                 'user_id' => Auth::id(),
                 'action' => $validated['action'],
+                'reason' => $validated['reason'] ?? null,
             ]
         );
+
+        $application->loadMissing('job.company');
+
+        Mail::to($application->employee_email)->send(new SendMail(
+            application: $application,
+            stage: 'owner',
+            action: $validated['action'],
+            reason: $validated['reason'] ?? null,
+            reviewerName: Auth::user()?->name ?? 'Owner',
+        ));
 
         return redirect()->route('owner.dashboard')->with('success', 'Owner decision saved successfully.');
     }
