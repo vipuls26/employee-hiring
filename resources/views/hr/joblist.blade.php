@@ -1,6 +1,6 @@
 <x-layout>
 
-    <x-components.header />
+    <x-header />
 
     <div class="mx-auto max-w-7xl px-3 py-8 pt-10">
         <div class="overflow-x-auto shadow-md rounded-lg">
@@ -57,5 +57,5 @@
         </div>
     </div>
 
-    <x-components.footer />
+    <x-footer />
 </x-layout>
