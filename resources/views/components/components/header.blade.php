@@ -3,7 +3,7 @@
         <header class="bg-gray-900">
             <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div class="flex lg:flex-1">
-                 <a href={{ route('employee.dashboard') }}>
+                    <a href={{ route('employee.dashboard') }}>
                         <p class="text-white"> Dashboard</p>
                     </a>
                 </div>
@@ -19,9 +19,10 @@
                     </button>
                 </div>
                 <el-popover-group class="hidden lg:flex lg:gap-x-12">
-                    <a href="{{ route('employee.addResume') }}" class="text-sm/6 font-semibold text-white">Add Resume</a>
+                    <a href="{{ route('employee.addResume') }}" class="text-sm/6 font-semibold text-white">Add
+                        Resume</a>
                     <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
-                    <a href="#" class="text-sm/6 font-semibold text-white">Notifications</a>
+
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
@@ -70,7 +71,7 @@
         <header class="bg-gray-900">
             <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div class="flex lg:flex-1">
-                     <a href={{ route('hr.dashboard') }}>
+                    <a href={{ route('hr.dashboard') }}>
                         <p class="text-white"> Dashboard</p>
                     </a>
                 </div>
@@ -137,10 +138,9 @@
         <header class="bg-gray-900">
             <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div class="flex lg:flex-1">
-                      <a href={{ route('manager.dashboard') }}>
+                    <a href={{ route('manager.dashboard') }}>
                         <p class="text-white"> Dashboard</p>
                     </a>
-                    <p class="text-white"> Dashboard</p>
                 </div>
                 <div class="flex lg:hidden">
                     <button type="button" command="show-modal" commandfor="mobile-menu"
@@ -239,6 +239,4 @@
 
         </header>
     @endif
-
-
 </div>

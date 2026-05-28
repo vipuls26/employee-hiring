@@ -34,10 +34,12 @@ Route::prefix('/hr')->group(function () {
     // add job
     Route::get('/job-form', [HRController::class, 'show'])->name('hr.showForm');
     Route::post('/add', [HRController::class, 'create'])->name('hr.createJob');
+    Route::post('/applications/{application}/decision', [HRController::class, 'decide'])->name('hr.applications.decide');
 });
 
 Route::prefix('/manager')->group(function () {
     Route::get('/dashboard', [ManagerController::class, 'show'])->name('manager.dashboard');
+    Route::post('/applications/{application}/decision', [ManagerController::class, 'decide'])->name('manager.applications.decide');
 });
 
 
@@ -47,4 +49,5 @@ Route::prefix('/owner')->group(function () {
     // register company
     Route::get('/register-form', [OwnerController::class, 'showForm'])->name('owner.showform');
     Route::post('/register-company', [OwnerController::class, 'registerCompany'])->name('owner.registerCompany');
+    Route::post('/applications/{application}/decision', [OwnerController::class, 'decide'])->name('owner.applications.decide');
 });

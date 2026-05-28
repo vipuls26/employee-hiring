@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Owner\RegisterCompany;
+use App\Models\Application;
+use App\Models\ApplicationApproval;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends Controller
 {
     public function index()
     {
-        return view('owner.dashboard');
+        $companyId = Auth::user()?->company?->id;
+
+        $applications = Application::with(['job.company', 'approvals.user'])
+            ->whereIn('overall_status', ['manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'])
+            ->when($companyId, fn ($query) => $query->whereHas('job', fn ($jobQuery) => $jobQuery->where('company_id', $companyId)))
+            ->orderByRaw("CASE WHEN overall_status IN ('manager_approved', 'manager_rejected') THEN 0 ELSE 1 END")
+            ->latest()
+            ->get();
+
+        return view('owner.dashboard', compact('applications'));
     }
 
     public function showForm()
@@ -36,5 +48,39 @@ class OwnerController extends Controller
         if ($company) {
             return redirect()->route('owner.dashboard')->with('success', 'Company register successfully');
         }
+    }
+
+    public function decide(Request $request, Application $application)
+    {
+        $validated = $request->validate([
+            'action' => ['required', 'in:accept,reject'],
+        ]);
+
+        if (! in_array($application->overall_status, ['manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'], true)) {
+            return redirect()->route('owner.dashboard')->with('error', 'Owner can only review applications after Manager.');
+        }
+
+        $companyId = Auth::user()?->company?->id;
+
+        if ($companyId && $application->job?->company_id !== $companyId) {
+            return redirect()->route('owner.dashboard')->with('error', 'You can only review applications for your company.');
+        }
+
+        $application->update([
+            'overall_status' => $validated['action'] === 'accept' ? 'owner_approved' : 'owner_rejected',
+        ]);
+
+        ApplicationApproval::updateOrCreate(
+            [
+                'application_id' => $application->id,
+                'role' => 'owner',
+            ],
+            [
+                'user_id' => Auth::id(),
+                'action' => $validated['action'],
+            ]
+        );
+
+        return redirect()->route('owner.dashboard')->with('success', 'Owner decision saved successfully.');
     }
 }
