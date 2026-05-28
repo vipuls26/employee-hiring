@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('overall_status', ['pending', 'hr_approved', 'hr_rejected', 'manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'])->default('pending');
             $table->foreignId('job_id')->constrained('job_applications');
             $table->foreignId('user_id')->constrained('users');
+            $table->string('resume_path');
             $table->timestamps();
         });
 

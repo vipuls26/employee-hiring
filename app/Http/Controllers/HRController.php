@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Hr\AddJob;
+use App\Http\Requests\hr\AddJob;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
@@ -14,11 +14,7 @@ class HRController extends Controller
 {
     public function index()
     {
-        $applications = Application::with(['job.company', 'approvals.user'])
-            ->orderByRaw("CASE WHEN overall_status = 'pending' THEN 0 ELSE 1 END")
-            ->latest()
-            ->get();
-
+        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status','pending')->latest()->get();
         return view('hr.dashboard', compact('applications'));
     }
 
@@ -56,10 +52,6 @@ class HRController extends Controller
         $validated = $request->validate([
             'action' => ['required', 'in:accept,reject'],
         ]);
-
-        if (! in_array($application->overall_status, ['pending', 'hr_approved', 'hr_rejected'], true)) {
-            return redirect()->route('hr.dashboard')->with('error', 'HR can only update pending applications.');
-        }
 
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'hr_approved' : 'hr_rejected',

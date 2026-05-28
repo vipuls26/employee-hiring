@@ -17,10 +17,9 @@ return new class extends Migration
             $table->string('email', 50);
             $table->string('phone', 12);
             $table->string('website', 50);
-            $table->string('description', 50);
+            $table->text('description');
             $table->string('location', 20);
             $table->foreignId('owner_id')->constrained('users');
-            
             $table->timestamps();
 
 

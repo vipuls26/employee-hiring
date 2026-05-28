@@ -28,7 +28,7 @@ class RegisterCompany extends FormRequest
             'email' => 'required|email|unique:company,email',
             'phone' => 'required|numeric|digits:10|unique:company,phone',
             'website' => 'required|unique:company,website',
-            'description' => 'required|max:150',
+            'description' => 'required|max:250',
             'location' => 'required|min:3|max:25'
         ];
     }
@@ -61,7 +61,7 @@ class RegisterCompany extends FormRequest
 
             // description
             'description.required' => 'Company description required',
-            'description.max' => 'Company description must be less than 150 characters',
+            'description.max' => 'Company description must be less than 250 characters',
 
             // location
             'location.required' => 'Company location required',

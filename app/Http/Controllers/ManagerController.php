@@ -12,10 +12,7 @@ class ManagerController extends Controller
     public function show()
     {
         $applications = Application::with(['job.company', 'approvals.user'])
-            ->whereIn('overall_status', ['hr_approved', 'hr_rejected', 'manager_approved', 'manager_rejected'])
-            ->orderByRaw("CASE WHEN overall_status IN ('hr_approved', 'hr_rejected') THEN 0 ELSE 1 END")
-            ->latest()
-            ->get();
+            ->where('overall_status','hr_approved')->latest()->get();
 
         return view('manager.dashboard', compact('applications'));
     }

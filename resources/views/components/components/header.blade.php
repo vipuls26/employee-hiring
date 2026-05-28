@@ -19,8 +19,15 @@
                     </button>
                 </div>
                 <el-popover-group class="hidden lg:flex lg:gap-x-12">
-                    <a href="{{ route('employee.addResume') }}" class="text-sm/6 font-semibold text-white">Add
-                        Resume</a>
+
+                    @if (auth()->user()->resume_path === null)
+                        <a href="{{ route('employee.addResume') }}" class="text-sm/6 font-semibold text-white">Add
+                            Resume</a>
+                    @else
+                        <a href="{{ route('employee.viewResume') }}" class="text-sm/6 font-semibold text-white">View
+                            Resume</a>
+                    @endif
+
                     <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
 
                 </el-popover-group>
@@ -52,8 +59,7 @@
                                             class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
                                         <a href="#"
                                             class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Applications</a>
-                                        <a href="#"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Notifications</a>
+
                                     </div>
                                     <div class="py-6">
                                         <a href="{{ route('auth.logout') }}"
@@ -88,7 +94,6 @@
                 </div>
                 <el-popover-group class="hidden lg:flex lg:gap-x-12">
                     <a href="{{ route('hr.showForm') }}" class="text-sm/6 font-semibold text-white">Add Job</a>
-                    <a href="#" class="text-sm/6 font-semibold text-white">Applications</a>
 
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -118,8 +123,6 @@
 
                                         <a href="{{ route('hr.showForm') }}"
                                             class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Jobs</a>
-                                        <a href=""
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-white/5">Applications</a>
 
                                     </div>
                                     <div class="py-6">
@@ -202,7 +205,7 @@
                 </dialog>
             </el-dialog>
         </header>
-    @else
+    @elseif(auth()->user()->role->role === 'Owner')
         <header class="bg-gray-900">
             <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div class="flex lg:flex-1">
@@ -239,4 +242,5 @@
 
         </header>
     @endif
+
 </div>

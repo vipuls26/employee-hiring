@@ -8,8 +8,8 @@ use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/', [AuthController::class, 'login'])->name('auth.login');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
@@ -22,10 +22,13 @@ Route::prefix('/employee')->group(function () {
     Route::get('/dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
     // apply for job
     Route::post('/apply-job/{job_id}', [EmployeeController::class, 'apply'])->name('employee.apply');
-    // add resume
-    // Display the form
+
+    // display the form
     Route::get('/add-resume', [EmployeeController::class, 'addResumeForm'])->name('employee.addResume');
     Route::post('/add-resume', [EmployeeController::class, 'storeResume'])->name('employee.resumeStore');
+
+    // view resume
+    Route::get('/view-resume', [EmployeeController::class, 'viewResume'])->name('employee.viewResume');
 });
 
 Route::prefix('/hr')->group(function () {

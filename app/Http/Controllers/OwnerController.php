@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Owner\RegisterCompany;
+use App\Http\Requests\owner\RegisterCompany;
 use App\Models\Application;
 use App\Models\ApplicationApproval;
 use App\Models\Company;
@@ -16,9 +16,7 @@ class OwnerController extends Controller
         $companyId = Auth::user()?->company?->id;
 
         $applications = Application::with(['job.company', 'approvals.user'])
-            ->whereIn('overall_status', ['manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'])
-            ->when($companyId, fn ($query) => $query->whereHas('job', fn ($jobQuery) => $jobQuery->where('company_id', $companyId)))
-            ->orderByRaw("CASE WHEN overall_status IN ('manager_approved', 'manager_rejected') THEN 0 ELSE 1 END")
+            ->where('overall_status','manager_approved')
             ->latest()
             ->get();
 
