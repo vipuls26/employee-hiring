@@ -4,8 +4,8 @@
     <p>Hello {{ $application->employee_name }},</p>
 
     <p>
-        Your application for <strong>{{ $application->job?->name ?? 'the selected role' }}</strong>
-        has been <strong>{{ $action }}</strong> by {{ $stage }}.
+        Your application for <strong>{{ $application->job?->name }}</strong> has been
+        <strong>{{ $action }}</strong> by {{ $stage }}.
     </p>
 
     <p>
