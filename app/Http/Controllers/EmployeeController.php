@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\employee\ResumeRequest;
 use App\Models\Application;
+use App\Models\ApplicationApproval;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,8 +26,8 @@ class EmployeeController extends Controller
         // check if job exist or not
         JobApplication::findOrFail($jobId);
 
-        if(Auth::user()->resume_path === null){
-            return redirect()->route('employee.dashboard')->with('error','Add resume before applying to job');
+        if (Auth::user()->resume_path === null) {
+            return redirect()->route('employee.dashboard')->with('error', 'Add resume before applying to job');
         }
 
         // add data in db
@@ -97,5 +98,12 @@ class EmployeeController extends Controller
         return response()->file(
             storage_path('app/public/' . $application->resume_path)
         );
+    }
+
+    // view application status
+    public function viewApplicationStatus()
+    {
+        $applications = Application::with('approvals')->where('user_id', Auth::id())->with('job')->latest()->get();
+        return view('employee.view-application-status', compact('applications'));
     }
 }

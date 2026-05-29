@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Register Company">
 
     <x-header />
 
@@ -137,7 +137,7 @@
                     @enderror
                 </div>
 
-                <div class="pt-2">
+                <div class="pt-2 pb-10">
                     <button type="submit"
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
                 </div>

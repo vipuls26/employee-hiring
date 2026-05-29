@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Add Job">
 
     <x-header />
 

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Upload Resume">
 
     <x-header />
 
