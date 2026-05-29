@@ -61,15 +61,14 @@
                     <label for="password" class="block text-sm/6 font-medium text-gray-900">Password <span
                             class="text-red-600">*</span></label>
                     <div class="mt-2">
-
-                        <div class="relative w-full">
-                            <i class="pi pi-lock absolute p-3 text-gray-400"></i>
+                        <div class="relative w-full flex items-center">
+                            <i class="pi pi-lock absolute left-3 text-gray-400"></i>
                             <input id="password" type="password" name="password" placeholder="Enter Password"
-                                class="block w-full rounded-md bg-white
-                                pl-10 pr-3 py-1.5 text-base
-                                text-gray-900 outline-1 -outline-offset-1 outline-gray-300
-                                placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
-                                focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white pl-10 pr-10 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            <span class="absolute right-3 cursor-pointer text-gray-400 hover:text-gray-600"
+                                onclick="togglePasswordVisibility('password', 'toggle-eye-password')">
+                                <i id="toggle-eye-password" class="pi pi-eye"></i>
+                            </span>
                         </div>
                     </div>
                     @error('password')
@@ -79,21 +78,19 @@
 
                 {{-- confirm password --}}
                 <div>
-                    <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900">
-                        Confirm Password <span class="text-red-600">*</span>
-                    </label>
+                    <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-900"> Confirm
+                        Password <span class="text-red-600">*</span> </label>
                     <div class="mt-2">
-                        <div class="relative w-full">
-                            <i class="pi pi-lock absolute p-3 text-gray-400"></i>
+                        <div class="relative w-full flex items-center">
+                            <i class="pi pi-lock absolute left-3 text-gray-400"></i>
                             <input id="password_confirmation" type="password" name="password_confirmation"
                                 placeholder="Enter Confirm Password"
-                                class="block w-full rounded-md bg-white
-                                pl-10 pr-3 py-1.5 text-base
-                                text-gray-900 outline-1 -outline-offset-1 outline-gray-300
-                                placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2
-                                focus:outline-indigo-600 sm:text-sm/6" />
+                                class="block w-full rounded-md bg-white pl-10 pr-10 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            <span class="absolute right-3 cursor-pointer text-gray-400 hover:text-gray-600"
+                                onclick="togglePasswordVisibility('password_confirmation', 'toggle-eye-confirm')">
+                                <i id="toggle-eye-confirm" class="pi pi-eye"></i>
+                            </span>
                         </div>
-
                     </div>
                     @error('password_confirmation')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -146,9 +143,26 @@
 
             <p class="mt-10 text-center text-sm/6 text-gray-500">
                 Already have account?
-                <a href="{{ route('auth.login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in</a>
+                <a href="{{ route('auth.login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign
+                    in</a>
             </p>
         </div>
     </div>
 
 </x-layout>
+
+
+<script>
+    function togglePasswordVisibility(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const eyeIcon = document.getElementById(iconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.className = "pi pi-eye-slash";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.className = "pi pi-eye";
+        }
+    }
+</script>
