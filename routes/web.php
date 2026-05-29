@@ -32,6 +32,9 @@ Route::prefix('/employee')->middleware('role:employee')->group(function () {
 
     // view resume
     Route::get('/view-resume', [EmployeeController::class, 'viewResume'])->name('employee.viewResume');
+
+    // view application status
+    Route::get('/view-application-status', [EmployeeController::class, 'viewApplicationStatus'])->name('employee.jobStatus');
 });
 
 // view resume

@@ -28,6 +28,9 @@
                             Resume</a>
                     @endif
 
+                    <a href="{{ route('employee.jobStatus') }}" class="text-sm/6 font-semibold text-white"> View application status
+                    </a>
+
                 </el-popover-group>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="{{ route('auth.logout') }}" class="text-sm/6 font-semibold text-white">Log out</a>
