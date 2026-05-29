@@ -20,7 +20,7 @@
                                 Current Status</th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                Approval Trail</th>
+                                View Resume</th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Action</th>
@@ -29,22 +29,25 @@
                     <tbody class="divide-y divide-slate-200">
                         @forelse ($applications as $application)
                             <tr class="align-top">
+                                {{-- name + email --}}
                                 <td class="px-4 py-4">
                                     <div class="font-semibold text-slate-900">{{ $application->employee_name }}</div>
                                     <div class="text-sm text-slate-500">{{ $application->employee_email }}</div>
                                 </td>
+                                {{-- job --}}
                                 <td class="px-4 py-4 text-sm text-slate-700">
-                                    <div>{{ $application->job?->name ?? 'Unknown job' }}</div>
-                                    <div class="text-slate-500">{{ $application->job?->company?->name }}
+                                    <div>{{ $application->job?->name }}</div>
                                     </div>
                                 </td>
 
+                                {{-- status --}}
                                 <td class="px-4 py-4">
                                     <span
                                         class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $statusColors[$application->overall_status] ?? 'bg-slate-100 text-slate-700' }}">
                                         {{ $application->overall_status }}
                                     </span>
                                 </td>
+                                {{-- resume --}}
                                 <td class="px-4 py-4 text-sm text-slate-600">
                                     @if ($application->resume_path)
                                         <a href="{{ route('applications.resume', $application) }}" target="_blank"
@@ -54,18 +57,20 @@
                                         <span class="text-slate-400">No resume</span>
                                     @endif
                                 </td>
+                                {{-- action --}}
                                 <td class="px-4 py-4">
                                     @if ($application->overall_status === 'hr_approved')
                                         <form action="{{ route('manager.applications.decide', $application) }}"
                                             method="POST" class="space-y-2">
                                             @csrf
-                                            <textarea name="reason" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
-                                                placeholder="Add rejection reason if rejecting"></textarea>
                                             <div class="flex flex-wrap gap-2">
                                                 <button type="submit" name="action" value="accept"
                                                     class="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">Accept</button>
                                                 <button type="submit" name="action" value="reject"
                                                     class="rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white hover:bg-orange-700">Reject</button>
+
+                                                <textarea name="reason" rows="2" class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
+                                                    placeholder="Add rejection reason if rejecting"></textarea>
                                             </div>
                                         </form>
                                     @else

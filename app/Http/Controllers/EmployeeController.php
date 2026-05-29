@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\employee\ResumeRequest;
 use App\Models\Application;
 use App\Models\JobApplication;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -15,19 +13,24 @@ class EmployeeController extends Controller
     public function index()
     {
         // only active job
-        // $jobs = JobApplication::where('status','active')->get();
-        $jobs = JobApplication::with('company')->where('status','active')->get();
+        $jobs = JobApplication::with('company')->where('status', 'active')->whereDoesntHave('applications', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->latest()->get();
         return view('employee.dashboard', compact('jobs'));
     }
 
     // apply for job
-    public function apply(Request $request, $jobId)
+    public function apply($jobId)
     {
         // check if job exist or not
-        $job = JobApplication::findOrFail($jobId);
+        JobApplication::findOrFail($jobId);
+
+        if(Auth::user()->resume_path === null){
+            return redirect()->route('employee.dashboard')->with('error','Add resume before applying to job');
+        }
 
         // add data in db
-        $jobApplication = Application::create([
+        Application::create([
             'employee_name' => Auth::user()->name,
             'employee_email' => Auth::user()->email,
             'job_id' => $jobId,
@@ -42,7 +45,7 @@ class EmployeeController extends Controller
     // show resume upload form
     public function addResumeForm()
     {
-        return view('employee.addResume');
+        return view('employee.add-resume');
     }
 
     // store resume in db
@@ -88,11 +91,6 @@ class EmployeeController extends Controller
         // check if resume exist in db
         if (!$application->resume_path) {
             return back()->with('error', 'No resume found for this application.');
-        }
-
-        // check if file present in exist in storage
-        if (!Storage::disk('public')->exists($application->resume_path)) {
-            return back()->with('error', 'Resume file could not be found.');
         }
 
         // redirect with path link for resume

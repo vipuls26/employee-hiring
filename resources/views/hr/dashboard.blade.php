@@ -4,7 +4,6 @@
     <div class="mx-auto max-w-7xl px-4 py-8">
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-slate-900">User applications</h1>
-
         </div>
 
         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -23,7 +22,7 @@
                                 Status</th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                Resume</th>
+                                View Resume</th>
                             <th
                                 class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                                 Action</th>

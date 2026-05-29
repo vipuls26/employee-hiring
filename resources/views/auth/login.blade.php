@@ -60,7 +60,7 @@
 
             <p class="mt-10 text-center text-sm/6 text-gray-500">
                 Don't have account?
-                <a href="register" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign up</a>
+                <a href="{{ route('auth.register') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign up</a>
             </p>
         </div>
     </div>

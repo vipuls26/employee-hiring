@@ -31,10 +31,9 @@
                                     <div class="font-semibold text-slate-900">{{ $application->employee_name }}</div>
                                     <div class="text-sm text-slate-500">{{ $application->employee_email }}</div>
                                 </td>
-                                {{-- job + comapny --}}
+                                {{-- job  --}}
                                 <td class="px-4 py-4 text-sm text-slate-700">
                                     <div>{{ $application->job?->name }}</div>
-                                    <div class="text-slate-500">{{ $application->job?->company?->name }}
                                     </div>
                                 </td>
 

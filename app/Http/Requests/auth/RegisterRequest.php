@@ -2,20 +2,14 @@
 
 namespace App\Http\Requests\Auth;
 
-
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
 
 class RegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
-
 
     public function rules(): array
     {
@@ -28,7 +22,6 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    #[Override]
     public function messages()
     {
         return [
@@ -52,6 +45,7 @@ class RegisterRequest extends FormRequest
             'password.max' => 'Password must be at most 12 characters',
             'password.confirmed' => 'Password confirmation does not match',
 
+            // confirm password
             'password_confirmation.required' => 'Confirm password is required',
             'password_confirmation.same' => 'Confirmed password must match to password',
 

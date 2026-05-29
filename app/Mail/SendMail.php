@@ -19,8 +19,7 @@ class SendMail extends Mailable
         public string $action,
         public ?string $reason,
         public string $reviewerName,
-    ) {
-    }
+    ) {}
 
     public function envelope(): Envelope
     {
