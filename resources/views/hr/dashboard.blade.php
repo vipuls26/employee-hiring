@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="HR Dashbaord">
     <x-header />
 
     <div class="mx-auto max-w-7xl px-4 py-8">

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Employee Dashboard">
 
     <x-header />
 

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Register Company">
 
     <x-header />
 
