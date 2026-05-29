@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HRController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Middleware\CheckUserRole;
 use Illuminate\Support\Facades\Route;
 
 // login
@@ -19,7 +20,7 @@ Route::post('/register-user', [AuthController::class, 'create'])->name('auth.cre
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
-Route::prefix('/employee')->group(function () {
+Route::prefix('/employee')->middleware('role:employee')->group(function () {
     // dashboard
     Route::get('/dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
     // apply for job
@@ -37,7 +38,7 @@ Route::prefix('/employee')->group(function () {
 Route::get('/applications/{application}/resume', [EmployeeController::class, 'viewApplicationResume'])
     ->name('applications.resume');
 
-Route::prefix('/hr')->group(function () {
+Route::prefix('/hr')->middleware('role:HR')->group(function () {
     // dashboard
     Route::get('/dashboard', [HRController::class, 'index'])->name('hr.dashboard');
     // add job
@@ -58,7 +59,7 @@ Route::prefix('/hr')->group(function () {
     Route::delete('/job/{job}', [HRController::class, 'destroy'])->name('hr.job.delete');
 });
 
-Route::prefix('/manager')->group(function () {
+Route::prefix('/manager')->middleware('role:Manager')->group(function () {
     // dashboard
     Route::get('/dashboard', [ManagerController::class, 'show'])->name('manager.dashboard');
     // manager accept/reject route
@@ -66,7 +67,7 @@ Route::prefix('/manager')->group(function () {
 });
 
 
-Route::prefix('/owner')->group(function () {
+Route::prefix('/owner')->middleware('role:Owner')->group(function () {
     // dashboard
     Route::get('/dashboard', [OwnerController::class, 'index'])->name('owner.dashboard');
     // register company
