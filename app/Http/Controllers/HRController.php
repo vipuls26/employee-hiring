@@ -42,7 +42,7 @@ class HRController extends Controller
         ]);
         // redirect to dashboard
         if ($job) {
-            return redirect()->route('hr.dashboard')->with('success', 'Job added successfully.');
+            return redirect()->route('hr.jobList')->with('success', 'Job added successfully.');
         }
 
         return redirect()->route('hr.showForm')->with('error', 'Job not added');
@@ -93,7 +93,7 @@ class HRController extends Controller
     }
 
     // approve/reject for employee application
-    public function decide(ApproveRejectRequest $request, Application $application)
+    public function applicationStatus(ApproveRejectRequest $request, Application $application)
     {
         // validation check
         $validated = $request->validated();
