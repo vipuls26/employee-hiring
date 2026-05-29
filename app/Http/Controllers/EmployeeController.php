@@ -13,7 +13,9 @@ class EmployeeController extends Controller
     public function index()
     {
         // only active job
-        $jobs = JobApplication::with('company')->where('status', 'active')->get();
+        $jobs = JobApplication::with('company')->where('status', 'active')->whereDoesntHave('applications', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->latest()->get();
         return view('employee.dashboard', compact('jobs'));
     }
 
@@ -22,6 +24,10 @@ class EmployeeController extends Controller
     {
         // check if job exist or not
         JobApplication::findOrFail($jobId);
+
+        if(Auth::user()->resume_path === null){
+            return redirect()->route('employee.dashboard')->with('error','Add resume before applying to job');
+        }
 
         // add data in db
         Application::create([
