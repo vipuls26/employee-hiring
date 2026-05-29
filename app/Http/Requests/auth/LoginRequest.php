@@ -2,15 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Override;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -23,7 +18,6 @@ class LoginRequest extends FormRequest
             'password' => 'required|string|min:6|max:12',
         ];
     }
-
 
     public function messages()
     {

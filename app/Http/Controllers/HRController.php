@@ -17,14 +17,14 @@ class HRController extends Controller
     // show application with pending status
     public function index()
     {
-        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status', 'pending')->latest()->get();
+        $applications = Application::where('overall_status', 'pending')->latest()->get();
         return view('hr.dashboard', compact('applications'));
     }
 
     // show add job form
     public function show()
     {
-        return view('hr.addJob');
+        return view('hr.add-job');
     }
 
     // add job detail in db
@@ -52,13 +52,13 @@ class HRController extends Controller
     public function jobList()
     {
         $jobs = JobApplication::with('company')->latest()->get();
-        return view('hr.joblist', compact('jobs'));
+        return view('hr.job-list', compact('jobs'));
     }
 
     // show job detail update form
     public function edit(JobApplication $job)
     {
-        return view('hr.editJob', compact('job'));
+        return view('hr.edit-job', compact('job'));
     }
 
     // update job detial
@@ -120,8 +120,6 @@ class HRController extends Controller
                 'reason' => $validated['reason'] ?? null,
             ]
         );
-
-        $application->loadMissing('job.company');
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

@@ -7,11 +7,10 @@
             @foreach ($jobs as $job)
                 <form action="{{ route('employee.apply', $job->id) }}" method="POST">
                     @csrf
-                    <div
-                        class="group bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
+                    <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
 
                         {{-- job + salary --}}
-                        <div class="p-6 flex-grow">
+                        <div class="p-6 flex-grow:1">
                             <div class="flex items-start justify-between mb-4">
                                 <div>
                                     <h3 class="text-xl font-bold text-gray-900">

@@ -11,7 +11,6 @@ class ResumeRequest extends FormRequest
         return true;
     }
 
-
     public function rules(): array
     {
         return [
@@ -22,6 +21,7 @@ class ResumeRequest extends FormRequest
     public function messages()
     {
         return [
+            // resume
             'resume.required' => 'Resume is required',
             'resume.mimes' => 'Resume must be a file of type: pdf, doc, docx',
             'resume.max' => 'Resume must not be greater than 2MB',

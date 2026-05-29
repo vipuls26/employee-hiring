@@ -14,7 +14,7 @@ class ManagerController extends Controller
     // show apllication approve by hr
     public function show()
     {
-        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status', 'hr_approved')->latest()->get();
+        $applications = Application::where('overall_status', 'hr_approved')->latest()->get();
         return view('manager.dashboard', compact('applications'));
     }
 
@@ -45,8 +45,6 @@ class ManagerController extends Controller
                 'reason' => $validated['reason'] ?? null,
             ]
         );
-
-        $application->loadMissing('job.company');
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

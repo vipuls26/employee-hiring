@@ -16,14 +16,14 @@ class OwnerController extends Controller
     // show apllication approve by manager
     public function index()
     {
-        $applications = Application::with(['job.company', 'approvals.user'])->where('overall_status', 'manager_approved')->latest()->get();
+        $applications = Application::where('overall_status', 'manager_approved')->latest()->get();
         return view('owner.dashboard', compact('applications'));
     }
 
     // show company register form
     public function showForm()
     {
-        return view('owner.registerCompany');
+        return view('owner.register-company');
     }
 
     // add company to db
@@ -76,8 +76,6 @@ class OwnerController extends Controller
                 'reason' => $validated['reason'] ?? null,
             ]
         );
-
-        $application->loadMissing('job.company');
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

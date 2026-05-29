@@ -146,7 +146,7 @@
 
             <p class="mt-10 text-center text-sm/6 text-gray-500">
                 Already have account?
-                <a href="/" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in</a>
+                <a href="{{ route('auth.login') }}" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in</a>
             </p>
         </div>
     </div>

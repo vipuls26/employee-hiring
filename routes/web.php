@@ -7,14 +7,16 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 
-
+// login
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/', [AuthController::class, 'login'])->name('auth.login');
 
-Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
+// register
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/register-user', [AuthController::class, 'create'])->name('auth.create');
+
+// logout
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
 Route::prefix('/employee')->group(function () {
@@ -31,6 +33,7 @@ Route::prefix('/employee')->group(function () {
     Route::get('/view-resume', [EmployeeController::class, 'viewResume'])->name('employee.viewResume');
 });
 
+// view resume
 Route::get('/applications/{application}/resume', [EmployeeController::class, 'viewApplicationResume'])
     ->name('applications.resume');
 
@@ -44,7 +47,7 @@ Route::prefix('/hr')->group(function () {
     //job list
     Route::get('/job-list', [HRController::class, 'jobList'])->name('hr.jobList');
 
-    // accept/reject route
+    // hr accept/reject route
     Route::post('/applications/{application}/decision', [HRController::class, 'decide'])->name('hr.applications.decide');
 
     // job edit
@@ -56,7 +59,9 @@ Route::prefix('/hr')->group(function () {
 });
 
 Route::prefix('/manager')->group(function () {
+    // dashboard
     Route::get('/dashboard', [ManagerController::class, 'show'])->name('manager.dashboard');
+    // manager accept/reject route
     Route::post('/applications/{application}/decision', [ManagerController::class, 'decide'])->name('manager.applications.decide');
 });
 
@@ -67,5 +72,7 @@ Route::prefix('/owner')->group(function () {
     // register company
     Route::get('/register-form', [OwnerController::class, 'showForm'])->name('owner.showform');
     Route::post('/register-company', [OwnerController::class, 'registerCompany'])->name('owner.registerCompany');
+
+    // owner accept/reject route
     Route::post('/applications/{application}/decision', [OwnerController::class, 'decide'])->name('owner.applications.decide');
 });

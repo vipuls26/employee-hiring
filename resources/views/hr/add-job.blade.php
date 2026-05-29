@@ -8,7 +8,6 @@
                 <h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">Add Job Application</h2>
             </div>
 
-
             <form action="{{ route('hr.createJob') }}" method="POST" class="mt-8 space-y-4">
                 @csrf
 
@@ -73,7 +72,6 @@
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-
 
                 <div class="pt-2">
                     <button type="submit"
