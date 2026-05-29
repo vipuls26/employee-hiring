@@ -58,7 +58,7 @@
                                 </td>
                                 <td class="px-4 py-4">
                                     @if ($application->overall_status === 'pending')
-                                        <form action="{{ route('hr.applications.decide', $application) }}"
+                                        <form action="{{ route('hr.applications.applicationStatus', $application) }}"
                                             method="POST" class="space-y-2">
                                             @csrf
                                             <div class="flex flex-wrap gap-2">

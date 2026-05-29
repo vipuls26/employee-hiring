@@ -52,7 +52,7 @@ Route::prefix('/hr')->middleware('role:HR')->group(function () {
     Route::get('/job-list', [HRController::class, 'jobList'])->name('hr.jobList');
 
     // hr accept/reject route
-    Route::post('/applications/{application}/decision', [HRController::class, 'decide'])->name('hr.applications.decide');
+    Route::post('/applications/{application}/decision', [HRController::class, 'applicationStatus'])->name('hr.applications.applicationStatus');
 
     // job edit
     Route::get('/job/{job}/edit', [HRController::class, 'edit'])->name('hr.job.edit');
@@ -66,7 +66,7 @@ Route::prefix('/manager')->middleware('role:Manager')->group(function () {
     // dashboard
     Route::get('/dashboard', [ManagerController::class, 'show'])->name('manager.dashboard');
     // manager accept/reject route
-    Route::post('/applications/{application}/decision', [ManagerController::class, 'decide'])->name('manager.applications.decide');
+    Route::post('/applications/{application}/decision', [ManagerController::class, 'applicationStatus'])->name('manager.applications.applicationStatus');
 });
 
 
@@ -78,5 +78,5 @@ Route::prefix('/owner')->middleware('role:Owner')->group(function () {
     Route::post('/register-company', [OwnerController::class, 'registerCompany'])->name('owner.registerCompany');
 
     // owner accept/reject route
-    Route::post('/applications/{application}/decision', [OwnerController::class, 'decide'])->name('owner.applications.decide');
+    Route::post('/applications/{application}/decision', [OwnerController::class, 'applicationStatus'])->name('owner.applications.applicationStatus');
 });

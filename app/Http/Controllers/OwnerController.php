@@ -49,7 +49,7 @@ class OwnerController extends Controller
     }
 
     // approve/reject for employee application review by manager
-    public function decide(ApproveRejectRequest $request, Application $application)
+    public function applicationStatus(ApproveRejectRequest $request, Application $application)
     {
         // validation check
         $validated = $request->validated();

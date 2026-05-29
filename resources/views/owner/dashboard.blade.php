@@ -58,7 +58,7 @@
                                 {{-- action --}}
                                 <td class="px-4 py-4">
                                     @if ($application->overall_status === 'manager_approved')
-                                        <form action="{{ route('owner.applications.decide', $application) }}"
+                                        <form action="{{ route('owner.applications.applicationStatus', $application) }}"
                                             method="POST" class="space-y-2">
                                             @csrf
 
