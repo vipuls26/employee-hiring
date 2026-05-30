@@ -64,7 +64,7 @@ class AuthController extends Controller
         }
 
         // redirect to login page
-        return redirect()->route('auth.login')->with('success', 'register successfully');
+        return redirect()->route('auth.login')->with('success', 'Register successfully');
     }
 
     // show login page
@@ -88,16 +88,16 @@ class AuthController extends Controller
 
             // redirect based on role
             if ($roleName === 'Owner') {
-                return redirect()->intended('owner/dashboard')->with('success', 'welcome to dashboard');
+                return redirect()->intended('owner/dashboard')->with('success', 'Welcome to dashboard');
             }
             if ($roleName === 'Manager') {
-                return redirect()->intended('/manager/dashboard')->with('success', 'welcome to dashboard');
+                return redirect()->intended('/manager/dashboard')->with('success', 'Welcome to dashboard');
             }
             if ($roleName === 'HR') {
-                return redirect()->intended('/hr/dashboard')->with('success', 'welcome to dashboard');
+                return redirect()->intended('/hr/dashboard')->with('success', 'Welcome to dashboard');
             }
 
-            return redirect()->intended('/employee/dashboard')->with('success', 'welcome to dashboard');
+            return redirect()->intended('/employee/dashboard')->with('success', 'Welcome to dashboard');
         }
 
         // if email not found then redirect to with msg

@@ -21,7 +21,7 @@ class OwnerController extends Controller
         // fetch application approved by manager for owner's company
         $applications = Application::with('job.company')
             ->where('overall_status', 'manager_approved')
-            ->whereRelation('job', 'company_id', $company->id)
+            ->whereRelation('job', 'company_id', $company?->id)
             ->latest()
             ->get();
 
