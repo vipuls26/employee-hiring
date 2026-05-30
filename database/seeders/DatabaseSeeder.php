@@ -18,29 +18,57 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'sam',
-            'email' => 'sam@gmail.com',
+            'name' => 'employee1',
+            'email' => 'employee1@gmail.com',
             'password' => 'password',
             'role_id' => 1
         ]);
 
         User::factory()->create([
-            'name' => 'martha',
-            'email' => 'martha@gmail.com',
+            'name' => 'employee2',
+            'email' => 'employee2@gmail.com',
+            'password' => 'password',
+            'role_id' => 1
+        ]);
+
+        User::factory()->create([
+            'name' => 'hr1',
+            'email' => 'hr1@gmail.com',
             'password' => 'password',
             'role_id' => 2
         ]);
 
         User::factory()->create([
-            'name' => 'joseph',
-            'email' => 'joseph@gmail.com',
+            'name' => 'hr2',
+            'email' => 'hr2@gmail.com',
+            'password' => 'password',
+            'role_id' => 2
+        ]);
+
+        User::factory()->create([
+            'name' => 'manager1',
+            'email' => 'manager1@gmail.com',
             'password' => 'password',
             'role_id' => 3
         ]);
 
         User::factory()->create([
-            'name' => 'jhon',
-            'email' => 'jhon@gmail.com',
+            'name' => 'manager2',
+            'email' => 'manager2@gmail.com',
+            'password' => 'password',
+            'role_id' => 3
+        ]);
+
+        User::factory()->create([
+            'name' => 'owner1',
+            'email' => 'owner1@gmail.com',
+            'password' => 'password',
+            'role_id' => 4
+        ]);
+
+        User::factory()->create([
+            'name' => 'owner2',
+            'email' => 'owner2@gmail.com',
             'password' => 'password',
             'role_id' => 4
         ]);

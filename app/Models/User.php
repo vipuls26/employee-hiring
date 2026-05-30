@@ -32,6 +32,16 @@ class User extends Authenticatable
         return $this->hasOne(Company::class, 'owner_id');
     }
 
+    public function companyHr()
+    {
+        return $this->hasOne(Company::class, 'hr_id');
+    }
+
+    public function companyManager()
+    {
+        return $this->hasOne(Company::class, 'manager_id');
+    }
+
     public function jobApplication()
     {
         return $this->hasMany(JobApplication::class);

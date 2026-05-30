@@ -38,7 +38,7 @@ class JobApplicationSeeder extends Seeder
             'salary' => 12000,
             'status' => 'active',
             'type' => 'hybrid',
-            'company_id' => 1,
+            'company_id' => 2,
             'created_at' => now(),
             'updated_at' => now()
         ]);
