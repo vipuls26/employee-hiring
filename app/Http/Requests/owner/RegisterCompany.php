@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Owner;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RegisterCompany extends FormRequest
 {
@@ -13,13 +15,15 @@ class RegisterCompany extends FormRequest
 
     public function rules(): array
     {
+        $companyId = $this->user()?->company?->id;
+
         return [
-            'name' => 'required|string|min:5|max:25|unique:company,name',
-            'email' => 'required|email|unique:company,email',
-            'phone' => 'required|numeric|digits:10|unique:company,phone',
-            'website' => 'required|unique:company,website',
+            'name' => ['required', 'string', 'min:5', 'max:25', Rule::unique('company', 'name')->ignore($companyId)],
+            'email' => ['required', 'email', Rule::unique('company', 'email')->ignore($companyId)],
+            'phone' => ['required', 'numeric', 'digits:10', Rule::unique('company', 'phone')->ignore($companyId)],
+            'website' => ['required', Rule::unique('company', 'website')->ignore($companyId)],
             'description' => 'required|max:250',
-            'location' => 'required|min:3|max:25'
+            'location' => 'required|min:3|max:25',
         ];
     }
 

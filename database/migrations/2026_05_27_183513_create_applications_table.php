@@ -17,21 +17,10 @@ return new class extends Migration
             $table->string('employee_name', 50);
             $table->string('employee_email', 50);
             $table->enum('overall_status', ['pending', 'hr_approved', 'hr_rejected', 'manager_approved', 'manager_rejected', 'owner_approved', 'owner_rejected'])->default('pending');
+            $table->string('reject_reason', 255)->nullable();
             $table->foreignId('job_id')->constrained('job_applications');
             $table->foreignId('user_id')->constrained('users');
             $table->string('resume_path');
-            $table->timestamps();
-        });
-
-
-        Schema::create('application_approvals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('application_id')->constrained('applications')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users');
-            $table->enum('role', ['hr', 'manager', 'owner']);
-            $table->enum('action', ['accept', 'reject']);
-            $table->string('reason', 255)->nullable();
-
             $table->timestamps();
         });
     }
@@ -42,6 +31,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('applications');
-        Schema::dropIfExists('application_approvals');
     }
 };

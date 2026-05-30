@@ -7,7 +7,7 @@ use App\Http\Requests\job\ApproveRejectRequest;
 use App\Http\Requests\job\EditJobRequest;
 use App\Mail\SendMail;
 use App\Models\Application;
-use App\Models\ApplicationApproval;
+use App\Models\Company;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -17,7 +17,16 @@ class HRController extends Controller
     // show application with pending status
     public function index()
     {
-        $applications = Application::where('overall_status', 'pending')->latest()->get();
+        // find company id
+        $companyId = Company::where('hr_id', Auth::id())->value('id');
+
+        // fetch application with belong this hr
+        $applications = Application::with('job.company')
+            ->where('overall_status', 'pending')
+            ->whereRelation('job', 'company_id', $companyId)
+            ->latest()
+            ->get();
+
         return view('hr.dashboard', compact('applications'));
     }
 
@@ -32,13 +41,14 @@ class HRController extends Controller
     {
         // validation check
         $validated = $request->validated();
+        $companyId = Company::where('hr_id', Auth::id())->value('id');
 
         // add job to db
         $job = JobApplication::create([
             'name' => $validated['name'],
             'salary' => $validated['salary'],
             'type' => $validated['type'],
-            'company_id' => 1,   // currently hardcode for one company
+            'company_id' => $companyId,
         ]);
         // redirect to dashboard
         if ($job) {
@@ -51,7 +61,15 @@ class HRController extends Controller
     // job list
     public function jobList()
     {
-        $jobs = JobApplication::with('company')->latest()->get();
+        // find company id
+        $companyId = Company::where('hr_id', Auth::id())->value('id');
+
+        // load job list for belong to login hr and overall status is pending
+        $jobs = JobApplication::with('company')
+            ->where('company_id', $companyId)
+            ->latest()
+            ->get();
+
         return view('hr.job-list', compact('jobs'));
     }
 
@@ -64,6 +82,7 @@ class HRController extends Controller
     // update job detial
     public function update(EditJobRequest $request, JobApplication $job)
     {
+
         // validation check
         $validated = $request->validated();
 
@@ -82,6 +101,7 @@ class HRController extends Controller
     // delete job
     public function destroy(JobApplication $job)
     {
+
         // check of any application before deleting job post
         if ($job->applications()->exists()) {
             return redirect()->route('hr.jobList')->with('error', 'You cannot delete a job that already has applications.');
@@ -95,6 +115,7 @@ class HRController extends Controller
     // approve/reject for employee application
     public function applicationStatus(ApproveRejectRequest $request, Application $application)
     {
+
         // validation check
         $validated = $request->validated();
 
@@ -106,20 +127,8 @@ class HRController extends Controller
         // update application status
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'hr_approved' : 'hr_rejected',
+            'reject_reason' => $validated['action'] === 'reject' ? $validated['reason'] : null,
         ]);
-
-        // add data in application approval table
-        ApplicationApproval::updateOrCreate(
-            [
-                'application_id' => $application->id,
-                'role' => 'hr',
-            ],
-            [
-                'user_id' => Auth::id(),
-                'action' => $validated['action'],
-                'reason' => $validated['reason'] ?? null,
-            ]
-        );
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

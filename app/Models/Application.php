@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['employee_name', 'employee_email', 'job_id', 'user_id', 'overall_status','resume_path'])]
 class Application extends Model
 {
+    protected $fillable = [
+        'employee_name',
+        'employee_email',
+        'job_id',
+        'user_id',
+        'overall_status',
+        'resume_path',
+        'reject_reason',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,12 +26,8 @@ class Application extends Model
         return $this->belongsTo(JobApplication::class, 'job_id');
     }
 
-    public function approvals()
+    public function company()
     {
-        return $this->hasMany(ApplicationApproval::class);
-    }
-
-    public function company() {
         return $this->hasMany(Company::class);
     }
 }

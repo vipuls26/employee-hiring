@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\job\ApproveRejectRequest;
 use App\Mail\SendMail;
 use App\Models\Application;
-use App\Models\ApplicationApproval;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -14,7 +14,16 @@ class ManagerController extends Controller
     // show apllication approve by hr
     public function show()
     {
-        $applications = Application::where('overall_status', 'hr_approved')->latest()->get();
+        // find company id for login user
+        $companyId = Company::where('manager_id', Auth::id())->value('id');
+
+        // fetch application with belong this manager and approved by hr
+        $applications = Application::with('job.company')
+            ->where('overall_status', 'hr_approved')
+            ->whereRelation('job', 'company_id', $companyId)
+            ->latest()
+            ->get();
+
         return view('manager.dashboard', compact('applications'));
     }
 
@@ -31,20 +40,8 @@ class ManagerController extends Controller
         // update application status
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'manager_approved' : 'manager_rejected',
+            'reject_reason' => $validated['action'] === 'reject' ? $validated['reason'] : null,
         ]);
-
-        // add data in application approval table
-        ApplicationApproval::updateOrCreate(
-            [
-                'application_id' => $application->id,
-                'role' => 'manager',
-            ],
-            [
-                'user_id' => Auth::id(),
-                'action' => $validated['action'],
-                'reason' => $validated['reason'] ?? null,
-            ]
-        );
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

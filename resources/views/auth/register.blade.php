@@ -2,7 +2,7 @@
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
 
-            <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+            <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create your account</h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -97,39 +97,81 @@
                     @enderror
                 </div>
 
-                {{-- role --}}
+                {{-- Role --}}
                 <div>
-                    <label for="role" class="block text-sm/6 font-medium text-gray-900">
+                    <label class="block text-sm/6 font-medium text-gray-900">
                         Role <span class="text-red-600">*</span>
                     </label>
+
                     <fieldset class="mt-2 space-y-4">
-                        <legend class="sr-only">Select your role</legend>
                         <div class="flex items-center">
                             <input id="employee" name="role" type="radio" value="employee"
-                                @checked(old('role') == 'employee')
-                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
-                            <label for="employee" class="ml-3 block text-sm font-medium text-gray-700">Employee</label>
+                                @checked(old('role') == 'employee') class="role-radio h-4 w-4 border-gray-300 text-indigo-600">
+                            <label for="employee" class="ml-3 text-sm font-medium text-gray-700">
+                                Employee
+                            </label>
                         </div>
+
                         <div class="flex items-center">
                             <input id="HR" name="role" type="radio" value="HR"
-                                @checked(old('role') == 'HR')
-                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                            <label for="HR" class="ml-3 block text-sm font-medium text-gray-700">Hr</label>
+                                @checked(old('role') == 'HR') class="role-radio h-4 w-4 border-gray-300 text-indigo-600">
+                            <label for="HR" class="ml-3 text-sm font-medium text-gray-700">
+                                HR
+                            </label>
                         </div>
+
                         <div class="flex items-center">
                             <input id="Manager" name="role" type="radio" value="Manager"
-                                @checked(old('role') == 'Manager')
-                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                            <label for="Manager" class="ml-3 block text-sm font-medium text-gray-700">Manager</label>
+                                @checked(old('role') == 'Manager') class="role-radio h-4 w-4 border-gray-300 text-indigo-600">
+                            <label for="Manager" class="ml-3 text-sm font-medium text-gray-700">
+                                Manager
+                            </label>
                         </div>
+
                         <div class="flex items-center">
                             <input id="Owner" name="role" type="radio" value="Owner"
-                                @checked(old('role') == 'Owner')
-                                class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                            <label for="Owner" class="ml-3 block text-sm font-medium text-gray-700">Owner</label>
+                                @checked(old('role') == 'Owner') class="role-radio h-4 w-4 border-gray-300 text-indigo-600">
+                            <label for="Owner" class="ml-3 text-sm font-medium text-gray-700">
+                                Owner
+                            </label>
                         </div>
                     </fieldset>
+
                     @error('role')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Company --}}
+                <div id="company-selection" class="{{ in_array(old('role'), ['HR', 'Manager']) ? '' : 'hidden' }}">
+
+                    <label for="company_id" class="block text-sm/6 font-medium text-gray-900">
+                        Company <span class="text-red-600">*</span>
+                    </label>
+
+                    <div class="mt-2">
+                        <select id="company_id" name="company_id" class="block w-full rounded-md border-gray-300">
+
+                            <option value="">Select Company</option>
+
+                            {{-- HR Companies --}}
+                            @foreach ($hrCompanies as $company)
+                                <option value="{{ $company->id }}" data-role="HR" @selected(old('company_id') == $company->id)>
+                                    {{ $company->name }}
+                                </option>
+                            @endforeach
+
+                            {{-- Manager Companies --}}
+                            @foreach ($managerCompanies as $company)
+                                <option value="{{ $company->id }}" data-role="Manager" @selected(old('company_id') == $company->id)>
+                                    {{ $company->name }}
+                                </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    @error('company_id')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
@@ -165,4 +207,44 @@
             eyeIcon.className = "pi pi-eye";
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleRadios = document.querySelectorAll('.role-radio');
+        const companySection = document.getElementById('company-selection');
+        const companySelect = document.getElementById('company_id');
+        const companyOptions = companySelect.querySelectorAll('option[data-role]');
+
+        function updateCompanies() {
+            const selectedRole = document.querySelector(
+                'input[name="role"]:checked'
+            )?.value;
+
+            if (selectedRole === 'HR' || selectedRole === 'Manager') {
+                companySection.classList.remove('hidden');
+
+                companyOptions.forEach(option => {
+                    option.hidden = option.dataset.role !== selectedRole;
+                });
+
+                const selectedOption = companySelect.selectedOptions[0];
+
+                if (
+                    selectedOption &&
+                    selectedOption.dataset.role &&
+                    selectedOption.dataset.role !== selectedRole
+                ) {
+                    companySelect.value = '';
+                }
+            } else {
+                companySection.classList.add('hidden');
+                companySelect.value = '';
+            }
+        }
+
+        roleRadios.forEach(radio => {
+            radio.addEventListener('change', updateCompanies);
+        });
+
+        updateCompanies();
+    });
 </script>

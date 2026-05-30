@@ -17,13 +17,13 @@ class CompanySeeder extends Seeder
             'email' => 'google@gmail.com',
             'location' => 'new york city',
             'description' => 'google is a technology company that specializes in internet-related services and products, including search engines, online advertising technologies, cloud computing, software, and hardware.',
-            'owner_id' => 4,
+            'owner_id' => 7,
             'phone' => 7896541230,
             'website' => 'https://www.google.com',
             'created_at' => now(),
             'updated_at' => now(),
-            'hr_id' => 2,
-            'manager_id' => 3
+            'hr_id' => 3,
+            'manager_id' => 5
         ]);
 
         Company::insert([
@@ -31,7 +31,7 @@ class CompanySeeder extends Seeder
             'email' => 'amazon@gmail.com',
             'location' => 'africa',
             'description' => 'amazon is a technology company that specializes in internet-related services and products, including search engines, online advertising technologies, cloud computing, software, and hardware.',
-            'owner_id' => 7,
+            'owner_id' => 8,
             'phone' => 7896541231,
             'website' => 'https://www.amaxon.com',
             'created_at' => now(),

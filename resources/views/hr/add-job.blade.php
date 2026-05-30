@@ -44,7 +44,7 @@
                                 class="block w-full rounded-md border-0 bg-white
                                 pl-10 py-1.5 px-3 text-gray-900 shadow-sm
                                 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400
-                                focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm" />
+                                focus:ring-2 focus:ring-inset focus:ring-   -600 sm:text-sm" />
                         </div>
                     </div>
                     @error('salary')

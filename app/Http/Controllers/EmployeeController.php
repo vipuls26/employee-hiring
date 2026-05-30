@@ -102,7 +102,8 @@ class EmployeeController extends Controller
     // view application status
     public function viewApplicationStatus()
     {
-        $applications = Application::with('approvals')->where('user_id', Auth::id())->with('job')->latest()->get();
+        $applications = Application::where('user_id', Auth::id())->with('job')->latest()->get();
         return view('employee.view-application-status', compact('applications'));
     }
+
 }
