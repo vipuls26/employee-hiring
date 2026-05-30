@@ -4,12 +4,12 @@
 
     <div class="mx-auto max-w-7xl px-4 py-8 mb-15">
         @if ($jobs->isNotEmpty())
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
 
                 @foreach ($jobs as $job)
                     <form action="{{ route('employee.apply', $job->id) }}" method="POST">
                         @csrf
-                        <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
+                        <div class="group bg-white rounded-2xl shadow-sm border-2 border-gray-300 flex flex-col h-full">
 
                             {{-- job + salary --}}
                             <div class="p-6 flex-grow:1">
@@ -48,16 +48,12 @@
                             </div>
 
                             {{-- apply --}}
-
-                            <div class="p-6 bg-gray-50/50 border-t border-gray-100 flex items-center justify-end">
-
-
+                            <div class="p-3 bg-gray-50/50 border-t border-gray-100 flex items-center justify-end">
                                 <button type="submit"
                                     class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow flex items-center justify-center gap-2">
                                     Apply
                                 </button>
                             </div>
-
                         </div>
 
                     </form>

@@ -6,7 +6,6 @@ use App\Http\Requests\job\ApproveRejectRequest;
 use App\Http\Requests\owner\RegisterCompany;
 use App\Mail\SendMail;
 use App\Models\Application;
-use App\Models\ApplicationApproval;
 use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -16,7 +15,16 @@ class OwnerController extends Controller
     // show apllication approve by manager
     public function index()
     {
-        $applications = Application::where('overall_status', 'manager_approved')->latest()->get();
+        // fetch login user company id
+        $company = Auth::user()->company;
+
+        // fetch application approved by manager for owner's company
+        $applications = Application::with('job.company')
+            ->where('overall_status', 'manager_approved')
+            ->whereRelation('job', 'company_id', $company->id)
+            ->latest()
+            ->get();
+
         return view('owner.dashboard', compact('applications'));
     }
 
@@ -30,7 +38,9 @@ class OwnerController extends Controller
     public function registerCompany(RegisterCompany $request)
     {
         // fetch user id
-        $ownerId = Auth::user()->id;
+        $ownerId = Auth::id();
+        $request->validated();
+
         // add data to table
         $company = Company::firstOrCreate([
             'name' => $request->name,
@@ -44,7 +54,7 @@ class OwnerController extends Controller
 
         // redirect to dashboard
         if ($company) {
-            return redirect()->route('owner.dashboard')->with('success', 'Company register successfully');
+            return redirect()->route('owner.dashboard')->with('success', 'Company saved successfully');
         }
     }
 
@@ -62,20 +72,8 @@ class OwnerController extends Controller
         // update application status
         $application->update([
             'overall_status' => $validated['action'] === 'accept' ? 'owner_approved' : 'owner_rejected',
+            'reject_reason' => $validated['action'] === 'reject' ? $validated['reason'] : null,
         ]);
-
-        // add data in application approval table
-        ApplicationApproval::updateOrCreate(
-            [
-                'application_id' => $application->id,
-                'role' => 'owner',
-            ],
-            [
-                'user_id' => Auth::id(),
-                'action' => $validated['action'],
-                'reason' => $validated['reason'] ?? null,
-            ]
-        );
 
         // send email
         Mail::to($application->employee_email)->send(new SendMail(

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -19,6 +20,19 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:6|max:12',
             'password_confirmation' => 'required|same:password',
             'role'     => 'required|string',
+            'company_id' => [
+                Rule::requiredIf(in_array($this->role, ['HR', 'Manager'], true)),
+                'nullable',
+                'integer',
+                Rule::when(
+                    $this->role === 'HR',
+                    Rule::exists('company', 'id')->where(fn ($query) => $query->whereNull('hr_id'))
+                ),
+                Rule::when(
+                    $this->role === 'Manager',
+                    Rule::exists('company', 'id')->where(fn ($query) => $query->whereNull('manager_id'))
+                )
+            ],
         ];
     }
 
@@ -50,6 +64,10 @@ class RegisterRequest extends FormRequest
 
             // role
             'role.required' => 'Role is required',
+
+            // company
+            'company_id.required' => 'Company is required for this role',
+            'company_id.exists' => 'Selected company is not available for this role',
         ];
     }
 }

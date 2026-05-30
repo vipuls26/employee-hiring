@@ -42,5 +42,15 @@ class JobApplicationSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        JobApplication::insert([
+            'name' => 'Bde',
+            'salary' => 17000,
+            'status' => 'active',
+            'type' => 'hybrid',
+            'company_id' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }
