@@ -23,4 +23,8 @@ class Application extends Model
     {
         return $this->hasMany(ApplicationApproval::class);
     }
+
+    public function company() {
+        return $this->hasMany(Company::class);
+    }
 }

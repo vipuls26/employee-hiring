@@ -32,8 +32,54 @@
                                     {{ $application->job->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $application->overall_status }}
+                                    @switch($application->overall_status)
+                                        @case('pending')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                        @break
+
+                                        @case('hr_approved')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">HR
+                                                Approved</span>
+                                        @break
+
+                                        @case('hr_rejected')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">HR
+                                                Rejected</span>
+                                        @break
+
+                                        @case('manager_approved')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">Manager
+                                                Approved</span>
+                                        @break
+
+                                        @case('manager_reject')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-800">Manager
+                                                Rejected</span>
+                                        @break
+
+                                        @case('owner_approved')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Owner
+                                                Approved</span>
+                                        @break
+
+                                        @case('owner_rejected')
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-200 text-red-900">Owner
+                                                Rejected</span>
+                                        @break
+
+                                        @default
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">{{ $application->overall_status }}</span>
+                                    @endswitch
                                 </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {{ $application->job->salary }}
                                 </td>

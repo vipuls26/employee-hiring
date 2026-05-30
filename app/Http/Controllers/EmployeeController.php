@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\employee\ResumeRequest;
 use App\Models\Application;
-use App\Models\ApplicationApproval;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\Auth;
 
